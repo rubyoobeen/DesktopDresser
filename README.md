@@ -1,9 +1,7 @@
 
 # DesktopDresser
 
-#### *Did you go shopping last week?* 
-#### *How many clothes do you have?* 
-#### *Have you done your laundry this week?*
+#### :thinking: *Did you go shopping last week? :thinking: How many clothes do you have? :thinking: Have you done your laundry this week? :thinking:*
 
 
 ## :arrow_up: Wouldn't it be Nice to Record All in One?
