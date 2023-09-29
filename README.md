@@ -1,5 +1,5 @@
 
-# Disney Character Tier List Maker*
+## Disney Character Tier List Maker*
 
 <p>As a devoted Disney fan, I plan to create a platform tailored specifically
 for fellow enthusiasts. This application allows users to create personalized
