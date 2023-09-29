@@ -1,7 +1,10 @@
+###### README.
 
 # DesktopDresser
 
-#### :thinking: *Did you go shopping last week? :thinking: How many clothes do you have? :thinking: Have you done your laundry this week? :thinking:*
+#### *Did you go shopping last week?*
+#### *How many clothes do you have?*
+#### *Have you done your laundry this week?*
 
 
 ## :arrow_up: Wouldn't it be Nice to Record All in One?
@@ -29,7 +32,7 @@ and show your sense of fashion!
 
 ### User Stories
 
-> - I want to be able to select a clothing item from my closet
-> - I want to be able to view a list of clothing in 'top' category
-> - I want to be able to add a clothing item to closet and specify the name, category, and if it's clean or dirty
-> - I want to be able to sort a clothing item to days regarding restrictions
+> - I want to be able to select a clothing item from my closet.
+> - I want to be able to view a list of clothing in 'top' category.
+> - I want to be able to add a clothing item to closet and specify the name, category, and if it's clean or dirty.
+> - I want to be able to sort a clothing item to days regarding restrictions.
