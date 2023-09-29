@@ -1,9 +1,9 @@
 
 # "My Closet"
 
-:shopping: **Did you go shopping last week?** <br>
-:dress: **How many clothes do you have?** <br>
-:basket: **Have you done your laundry this week?**
+- **Did you go shopping last week?**
+- **How many clothes do you have?**
+- **Have you done your laundry this week?**
 
 ## Wouldn't it be nice to record all in one?
 
@@ -15,10 +15,10 @@ and make the most out of your style!
 
 ## Key Features
 
-- Easy Access to Your Wardrobe
-- Smart Shopping by Reducing Duplicates
-- Build your personalized weekly planner
-- Laundry Management
+:dress: **Easy Access to Your Wardrobe** <br>
+:shopping: **Smart Shopping by Reducing Duplicates** <br>
+:memo: **Build your personalized weekly planner** <br>
+:basket: **Laundry Management**
 
 ## How it Works
 
