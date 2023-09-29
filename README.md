@@ -7,7 +7,7 @@
 #### *Have you done your laundry this week?*
 
 
-## :arrow_up: Wouldn't it be Nice to Record All in One?
+## :arrow_up: Bundle up in one spot!
 
 Welcome to ***DesktopDresser***, the ultimate wardrobe organizing application!
 This is designed for **fashion enthusiasts** and **organization lovers**.
