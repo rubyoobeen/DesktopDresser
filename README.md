@@ -17,13 +17,13 @@ and show your sense of fashion!
 ## Key Features
 
 - :shopping: **Easy Access and Smart Shopping**
- - "Add, edit, and categorize your clothing ANYWHERE"
- - "Easily identify DUPLICATES in your wardrobe"
+  - *"Add, edit, and categorize your clothing ANYWHERE"*
+  - *"Easily identify DUPLICATES in your wardrobe"*
 - :memo: **Build Your Personalized Weekly Planner**
- - "Mark on SPECIAL occasions and heck RESTRICTION for the clothing combinations"
- - "Express your sense of FASHION"
+  - *"Mark on SPECIAL occasions and heck RESTRICTION for the clothing combinations"*
+  - *"Express your sense of FASHION"*
 - :basket: **Laundry Management**
- - "Mark clothing by checking CLEAN/DIRTY"
+  - *"Mark clothing by checking CLEAN/DIRTY"*
 
 ## User Stories
 
