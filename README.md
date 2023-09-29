@@ -1,12 +1,9 @@
 
 # MY CLOSET
 
-- **Did you go shopping last week?**
-- **How many clothes do you have?**
-- **Have you done your laundry this week?**
+:thinking: **Did you go shopping last week? How many clothes do you have? Have you done your laundry this week?**
 
-:arrow_up:
-## Wouldn't it be Nice to Record All in One?
+## Wouldn't it be Nice to Record All in One? :arrow_up:
 
 Welcome to **MY CLOSET**, the ultimate wardrobe organizing application!
 This is designed for fashion enthusiasts and organization lovers.
