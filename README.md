@@ -7,7 +7,7 @@
 #### *Have you done your laundry this week?*
 
 
-## :arrow_up: Bundle up in one spot!
+## :arrow_up: Bundle Up in One Spot!
 
 Welcome to ***DesktopDresser***, the ultimate wardrobe organizing application!
 This is designed for **fashion enthusiasts** and **organization lovers**.
