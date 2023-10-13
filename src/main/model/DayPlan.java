@@ -1,17 +1,16 @@
 package model;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class DayPlan {
-    private Day day;
+    private final Day day;
     private List<Clothing> clothingItems;
 
     // EFFECTS: initialize a DayPlan object with given day and
     //         empty list of clothing items.
-    public DayPlan(Day day) {
+    public DayPlan(Day day, List<Clothing> closet) {
         this.day = day;
-        this.clothingItems = new ArrayList<>();
+        this.clothingItems = closet;
     }
 
     public Day getDay() {

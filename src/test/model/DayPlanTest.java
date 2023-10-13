@@ -3,6 +3,9 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -11,25 +14,29 @@ class DayPlanTest {
     private Clothing top;
     private Clothing bottom;
     private Clothing shoes;
+    private List<Clothing> testCloset;
 
     @BeforeEach
     void setUp() {
-        testDayPlan = new DayPlan(Day.FRI);
-        top = new Clothing("Hoodie", ClothingCategory.TOP, Color.WH);
-        bottom = new Clothing("Skirt", ClothingCategory.BOT, Color.BK);
-        shoes = new Clothing("Sandal", ClothingCategory.SHOES, Color.RD);
+        testCloset = new ArrayList<>();
+        top = new Clothing("Hoodie", ClothingCategory.TOP, Color.WH, true);
+        bottom = new Clothing("Skirt", ClothingCategory.BOT, Color.BK, false);
+        shoes = new Clothing("Sandal", ClothingCategory.SHOES, Color.RD, false);
+
+        testCloset.add(top);
+        testCloset.add(bottom);
+
+        testDayPlan = new DayPlan(Day.WED, testCloset);
     }
 
     @Test
     void testAddClothingItem() {
-        testDayPlan.addClothingItem(top);
-        assertTrue(testDayPlan.getClothingItems().contains(top));
+        testDayPlan.addClothingItem(shoes);
+        assertTrue(testDayPlan.getClothingItems().contains(shoes));
     }
 
     @Test
     void testRemoveClothingItem() {
-        testDayPlan.addClothingItem(top);
-        testDayPlan.addClothingItem(bottom);
         testDayPlan.removeClothingItem(bottom);
         assertFalse(testDayPlan.getClothingItems().contains(bottom));
     }

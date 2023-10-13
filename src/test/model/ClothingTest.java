@@ -10,7 +10,7 @@ class ClothingTest {
 
     @BeforeEach
     void runBefore() {
-        testClothing = new Clothing("Shirt", ClothingCategory.TOP, Color.WH);
+        testClothing = new Clothing("Shirt", ClothingCategory.TOP, Color.WH, true);
     }
 
     @Test

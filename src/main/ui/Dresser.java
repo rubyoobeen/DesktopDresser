@@ -2,6 +2,7 @@ package ui;
 
 import model.Clothing;
 import model.ClothingCategory;
+import model.Day;
 import model.DayPlan;
 
 import java.util.ArrayList;
@@ -15,13 +16,24 @@ public class Dresser {
     private List<DayPlan> weeklyPlans;
 
     // REQUIRES: non-empty closet
+    // EFFECTS: open closet
     public Dresser() {
         this.scanner = new Scanner(System.in);
         this.closet = new ArrayList<>();
         this.weeklyPlans = new ArrayList<>();
+        initialWeeklyPlans();
         openCloset();
     }
 
+    // EFFECTS: set initial weekly plans
+    public void initialWeeklyPlans() {
+        for (Day day : Day.values()) {
+            DayPlan dayPlan = new DayPlan(day, closet);
+            weeklyPlans.add(dayPlan);
+        }
+    }
+
+    // EFFECTS: open closet by showing the closet menu that users can choose
     public void openCloset() {
         boolean closetMenu = true;
         while (closetMenu) {
@@ -31,6 +43,7 @@ public class Dresser {
         }
     }
 
+    // EFFECTS: display closet application menu
     public void displayClosetMenu() {
         System.out.println("Closet Menu");
         System.out.println("1. Add New Clothing Item");
@@ -40,6 +53,7 @@ public class Dresser {
         System.out.println("What do you want to do?: ");
     }
 
+    // EFFECTS: get user choice for application menu
     private int getUserChoice() {
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -47,6 +61,7 @@ public class Dresser {
         return choice;
     }
 
+    // EFFECTS: guide the choice from the menu
     private boolean menuChoice(int choice) {
         switch (choice) {
             case 1:
@@ -66,7 +81,7 @@ public class Dresser {
         }
     }
 
-    // adding given new clothing item to the closet
+    // EFFECTS: adding given new clothing item to the closet
     private void addClothingToCloset() {
         System.out.println("Enter what's a new clothing item: ");
         String name = scanner.nextLine();
@@ -74,7 +89,7 @@ public class Dresser {
         ClothingCategory category = ClothingCategory.valueOf(scanner.nextLine().toUpperCase());
     }
 
-    // checking given clothing item from the closet if it's available
+    // EFFECTS: checking given clothing item from the closet if it's available
     private void checkClothingFromCloset() {
         System.out.println("Check clothing item");
         for (Clothing item : closet) {
@@ -82,7 +97,7 @@ public class Dresser {
         }
     }
 
-    // deleting given item from the closet
+    // EFFECTS: deleting given item from the closet
     private void deleteClothingFromCloset() {
         System.out.println("Enter clothing item you would like to delete");
         String removeName = scanner.nextLine();
