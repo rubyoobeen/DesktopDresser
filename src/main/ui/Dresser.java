@@ -21,16 +21,7 @@ public class Dresser {
         this.scanner = new Scanner(System.in);
         this.closet = new ArrayList<>();
         this.weeklyPlans = new ArrayList<>();
-        initialWeeklyPlans();
         openCloset();
-    }
-
-    // EFFECTS: set initial weekly plans
-    public void initialWeeklyPlans() {
-        for (Day day : Day.values()) {
-            DayPlan dayPlan = new DayPlan(day, closet);
-            weeklyPlans.add(dayPlan);
-        }
     }
 
     // EFFECTS: open closet by showing the closet menu that users can choose
@@ -49,7 +40,7 @@ public class Dresser {
         System.out.println("1. Add New Clothing Item");
         System.out.println("2. Check Clothing Item");
         System.out.println("3. Delete Clothing Item");
-        System.out.println("4. Back to Main Menu");
+        System.out.println("4. Build a Weekly Planner");
         System.out.println("What do you want to do?: ");
     }
 
@@ -74,7 +65,7 @@ public class Dresser {
                 deleteClothingFromCloset();
                 return true;
             case 4:
-                System.out.println("Returning to the main menu...");
+                getSelectedDay();
                 return true;
             default:
                 return true;
@@ -118,6 +109,33 @@ public class Dresser {
         }
     }
 
+    private Day getSelectedDay() {
+        Scanner scanner = new Scanner(System.in);
+        int selectedDay = 0;
+
+        System.out.println("Select a Day: ");
+        System.out.println("1.Sunday");
+        System.out.println("2. Monday");
+        System.out.println("3. Tuesday");
+        System.out.println("4. Wednesday");
+        System.out.println("5. Thursday");
+        System.out.println("6. Friday");
+        System.out.println("7. Saturday");
+
+        boolean isValidInput = false;
+
+        while (!isValidInput) {
+            if (scanner.hasNextInt()) {
+                selectedDay = scanner.nextInt();
+                if (selectedDay >= 1 && selectedDay <= 7) {
+                    isValidInput = true;
+                } else {
+                    System.out.println("Invalid Input. ");
+                }
+            }
+        }
+
+    }
 }
 
 

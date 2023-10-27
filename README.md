@@ -32,7 +32,12 @@ and show your sense of fashion!
 
 ### User Stories
 
+> Phase 0-1:
 > - I want to be able to select a clothing item from my closet.
 > - I want to be able to view a list of clothing in 'top' category.
-> - I want to be able to add a clothing item to closet and specify the name, category, and if it's clean or dirty.
+> - I want to be able to add a clothing item to closet and specify the name, category, color, and if it's clean or dirty.
 > - I want to be able to sort a clothing item to days regarding restrictions.
+> 
+> Phase 2:
+> - As a user, when I start application, I want to be given a menu.
+> - As a user, when I select application menu, I want to open the closet and view all my clothing items.

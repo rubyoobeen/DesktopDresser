@@ -38,19 +38,41 @@ public class DayPlan {
     public boolean meetRequirements() {
         boolean hasTop = false;
         boolean hasBot = false;
+        boolean hasDress = false;
+        boolean hasAcc = false;
+        boolean hasOuter = false;
         boolean hasShoes = false;
 
         for (Clothing item : clothingItems) {
-            if (item.getCategory() == ClothingCategory.TOP) {
-                hasTop = true;
-            } else if (item.getCategory() == ClothingCategory.BOT) {
-                hasBot = true;
-            } else if (item.getCategory() == ClothingCategory.SHOES) {
-                hasShoes = true;
+            switch (item.getCategory()) {
+                case TOP:
+                    hasTop = true;
+                    break;
+                case BOT:
+                    hasBot = true;
+                    break;
+                case DRESS:
+                    hasDress = true;
+                    break;
+                case ACC:
+                    hasAcc = true;
+                    break;
+                case OUTER:
+                    hasOuter = true;
+                    break;
+                case SHOES:
+                    hasShoes = true;
+                    break;
             }
+
         }
 
-        return hasTop && hasBot && hasShoes;
+        // top has to be always paired with a bottom, dress can be
+        boolean pairClothing = (hasTop && hasBot) || hasDress;
+
+        // always require shoes;
+        // dress, acc, outer
+        return pairClothing && hasShoes;
     }
     
 }
