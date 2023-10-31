@@ -1,8 +1,13 @@
 package ui;
 
+import java.io.FileNotFoundException;
+
 public class Main {
     public static void main(String[] args) {
-        Dresser dresser = new Dresser();
-        dresser.openCloset();
+        try {
+            new Closet();
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to run application: file not found");
+        }
     }
 }
