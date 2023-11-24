@@ -69,13 +69,13 @@ public class Clothing implements Writable {
 
     // EFFECTS: returns string representation of this clothing
     public String toString() {
-        return "item: " + item + " | category: " + category + " | color: " + color + " | clean?: " + isClean;
+        return "[" + category + "] " + color + " " + item + " | washed: " + isClean;
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("name", item);
+        json.put("item", item);
         json.put("category", category);
         json.put("color", color);
         json.put("clean?", isClean);

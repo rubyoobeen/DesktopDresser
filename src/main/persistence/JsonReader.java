@@ -91,7 +91,7 @@ public class JsonReader {
         for (Object json : clothesArray) {
             JSONObject nextClothing = (JSONObject) json;
             Clothing clothing = parseClothing(nextClothing);
-            outfit.addClothingToOutFit(clothing);
+            outfit.addClothingToOutfit(clothing);
         }
 
         c.addOutfitToCloset(outfit);
