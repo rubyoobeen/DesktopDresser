@@ -2,14 +2,14 @@ package model;
 
 // Represents different color
 public enum Color {
-    RD,
-    OR,
-    YL,
-    GR,
-    BL,
-    PR,
-    PK,
-    WH,
-    BK,
+    RED,
+    ORANGE,
+    YELLOW,
+    GREEN,
+    BLUE,
+    PURPLE,
+    PINK,
+    WHITE,
+    BLACK,
     MIX
 }
