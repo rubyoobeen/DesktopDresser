@@ -41,3 +41,6 @@ and show your sense of fashion!
 > Phase 2:
 > - As a user, when I start application, I want to be given a menu.
 > - As a user, when I select application menu, I want to open the closet and view all my clothing items.
+> 
+> Phase 3:
+> - As a user, I want to be able to add multiple clothes to the closet

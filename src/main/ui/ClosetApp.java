@@ -2,10 +2,10 @@ package ui;
 
 import model.*;
 
+import model.exception.ClothingException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ public class ClosetApp {
     private JsonReader jsonReader;
 
     // EFFECTS: constructs closet and runs application
-    public ClosetApp() throws FileNotFoundException {
+    public ClosetApp() {
         input = new Scanner(System.in);
         closet = new Closet("my closet");
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -83,7 +83,7 @@ public class ClosetApp {
     }
 
     // EFFECTS: adding given new clothing item to the closet
-    private void addClothing() {
+    public void addClothing() {
         System.out.println("enter clothing item to add: ");
         input.nextLine();
         String name = input.nextLine();
@@ -95,7 +95,7 @@ public class ClosetApp {
     }
 
     // EFFECTS: prompts user to choose clothing category and return it
-    private ClothingCategory whatCategory() {
+    public ClothingCategory whatCategory() {
         System.out.println("choose clothing category: ");
 
         int label = 1;
@@ -109,7 +109,7 @@ public class ClosetApp {
     }
 
     // EFFECTS: prompts user to choose clothing color and return it
-    private Color whatColor() {
+    public Color whatColor() {
         System.out.println("choose clothing color: ");
 
         int label = 1;
@@ -123,7 +123,7 @@ public class ClosetApp {
     }
 
     // EFFECTS: asks user if they want to delete clothing items
-    private void deleteFromCloset() {
+    public void deleteFromCloset() {
         while (true) {
             displayClothingOptions(closet.getClothingsFromCloset());
             System.out.println("enter 1 to delete a clothing item, 0 to exit: ");
@@ -153,7 +153,7 @@ public class ClosetApp {
 
 
     // EFFECTS: prompts user to build an outfit from existing clothing items
-    private void buildOutfit() {
+    public void buildOutfit() {
         System.out.println("enter name of outfit: ");
         String outfitName = input.next();
         Outfit newOutfit = new Outfit(outfitName);
@@ -208,17 +208,17 @@ public class ClosetApp {
 
     // MODIFIES: this
     // EFFECTS: loads closet from file
-    private void loadCloset() {
+    public void loadCloset() {
         try {
             closet = jsonReader.read();
             System.out.println("loaded " + closet.getName() + " from " + JSON_STORE);
-        } catch (IOException e) {
+        } catch (IOException ex) {
             System.out.println("unable to read from file: " + JSON_STORE);
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
-    private void viewCloset() {
+    public void viewCloset() {
         List<Clothing> clothings = closet.getClothingsFromCloset();
         List<Outfit> outfits = closet.getOutfitsFromCloset();
 
@@ -244,7 +244,7 @@ public class ClosetApp {
 
     // MODIFIES: this
     // EFFECTS: saves closet to file
-    private void saveCloset() {
+    public void saveCloset() {
         try {
             jsonWriter.open();
             jsonWriter.write(closet);
