@@ -218,6 +218,17 @@ public class ClosetApp {
         }
     }
 
+    public void loadClosetAndThrowException() throws ClothingException {
+        try {
+            closet = jsonReader.read();
+            System.out.println("loaded " + closet.getName() + " from " + JSON_STORE);
+        } catch (IOException ex) {
+            System.out.println("unable to read from file: " + JSON_STORE);
+            ex.printStackTrace();
+            throw new ClothingException("Error loading closet: " + ex.getMessage());
+        }
+    }
+
     public void viewCloset() {
         List<Clothing> clothings = closet.getClothingsFromCloset();
         List<Outfit> outfits = closet.getOutfitsFromCloset();
