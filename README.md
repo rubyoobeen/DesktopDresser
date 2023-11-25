@@ -22,7 +22,7 @@ and show your sense of fashion!
 - *Add, edit, and categorize your clothing ANYWHERE*
 - *Easily identify DUPLICATES in your wardrobe*
 
-#### :memo: Build Your Personalized Weekly Planner
+#### :memo: Build Your Personalized Outfits
 - *Mark on SPECIAL occasions and heck RESTRICTION for the clothing combinations*
 - *Express your sense of FASHION*
 
@@ -44,3 +44,13 @@ and show your sense of fashion!
 > 
 > Phase 3:
 > - As a user, I want to be able to add multiple clothes to the closet
+
+### Instructions for Grader
+
+> X: Clothing, Y: Outfit, Z: Closet
+- reload the state of application by clicking 'Load Closet' from menu bar
+- add multiple Xs to Z by clicking 'Add Clothing' 
+- remove multiple Xs from Z by clicking 'Remove Clothing'
+- build Y with multiple Xs by clicking 'Build Outfit'
+- load old Z by clicking 'Load Closet'
+- view Xs and Ys in Z by clicking 'View Closet' and following option for 'Clothing Items/Outfits'
