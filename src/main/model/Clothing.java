@@ -1,24 +1,25 @@
 package model;
 
+import model.exception.ClothingException;
 import org.json.JSONObject;
 import persistence.Writable;
 
-// Represents a clothing having an item, category, color, isClean, timesUsed
+// Represents a clothing having an item, category, color, isClean, and timesUsed
 public class Clothing implements Writable {
     private static final int LIMIT = 5;
     private String item;
     private ClothingCategory category;
     private Color color;
     private boolean isClean;
-    private int timesWorn;
+    private int timesUsed;
 
-    // EFFECTS: constructs a clothing with item, category, color, and
+    // EFFECTS: constructs a clothing with given item, given category, given color, isClean, and timesUsed
     public Clothing(String clothingItem, ClothingCategory clothingCategory, Color clothingColor) {
         this.item = clothingItem;
         this.category = clothingCategory;
         this.color = clothingColor;
         this.isClean = true;
-        this.timesWorn = 0;
+        this.timesUsed = 0;
     }
 
     public String getItem() {
@@ -37,39 +38,57 @@ public class Clothing implements Writable {
         return isClean;
     }
 
-    public int getTimesWorn() {
-        return timesWorn;
+    public int getTimesUsed() {
+        return timesUsed;
     }
 
     // MODIFIES: this
-    // EFFECTS: stimulates using the clothing and updates its cleanliness
-    public void worn() {
-        if (timesWorn >= LIMIT) {
-            System.out.println("item has to be washed");
+    // EFFECTS: set isClean to dirty = false, throw exception otherwise
+    public void setDirty() throws ClothingException {
+        if (isClean) {
             isClean = false;
         } else {
-            System.out.println("item: [" + item + "] worn");
-            timesWorn++;
-            if (timesWorn == 5) {
-                isClean = false;
-            }
+            throw new ClothingException("item is already dirty");
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: simulates washing the clothing and sets it to clean, true
-    public void wash() {
-        if (!isClean) {
-            isClean = true;
-            System.out.println("item : [" + item + "] is washed");
+    // EFFECTS: use clothing and updates its timesUsed, throw exception otherwise
+    public void use() throws ClothingException {
+        if (timesUsed < LIMIT) {
+            timesUsed++;
         } else {
-            System.out.println("item is already clean");
+            throw new ClothingException("item was used too many times");
         }
     }
 
-    // EFFECTS: returns string representation of this clothing
+    // MODIFIES: this
+    // EFFECTS: set isClean to clean = true, throw exception otherwise
+    public void setClean() throws ClothingException {
+        if (!isClean) {
+            isClean = true;
+        } else {
+            throw new ClothingException("item is already clean");
+        }
+    }
+
+    // EFFECTS: returns string representation of this clothing, throw exception otherwise
     public String toString() {
-        return "[" + category + "] " + color + " " + item + " | washed: " + isClean;
+        return "[" + category + "] " + color + " " + item + " | washed: " + isClean + " | [" + timesUsed + "] used";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Clothing clothing = (Clothing) obj;
+
+        return item.equals(clothing.item) && category == clothing.category && color == clothing.color;
     }
 
     @Override
@@ -79,6 +98,7 @@ public class Clothing implements Writable {
         json.put("category", category);
         json.put("color", color);
         json.put("clean?", isClean);
+        json.put("times worn", timesUsed);
         return json;
     }
 }

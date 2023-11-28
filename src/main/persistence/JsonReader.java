@@ -4,6 +4,7 @@
 package persistence;
 
 import model.*;
+import model.exception.ClothingException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,7 +25,7 @@ public class JsonReader {
 
     // EFFECTS: reads closet from file and return it
     // throws IOException if an error occurs reading data from file
-    public Closet read() throws IOException {
+    public Closet read() throws IOException, ClothingException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseCloset(jsonObject);
@@ -42,7 +43,7 @@ public class JsonReader {
     }
 
     // EFFECTS: parses closet from JSON object and return it
-    private Closet parseCloset(JSONObject jsonObject) {
+    private Closet parseCloset(JSONObject jsonObject) throws ClothingException {
         String name = jsonObject.getString("name");
         Closet c = new Closet(name);
         addClothings(c, jsonObject);
@@ -63,17 +64,21 @@ public class JsonReader {
     // MODIFIES: closet
     // EFFECTS: parses clothing from JSON object and adds it to closet
     private void addClothing(Closet c, JSONObject jsonObject) {
-        String name = jsonObject.getString("item");
-        ClothingCategory category = ClothingCategory.valueOf(jsonObject.getString("category"));
-        Color color = Color.valueOf(jsonObject.getString("color"));
-        Boolean isClean = jsonObject.getBoolean("clean?");
-        Clothing clothing = new Clothing(name, category, color);
-        c.addClothingToCloset(clothing);
+        try {
+            String name = jsonObject.getString("item");
+            ClothingCategory category = ClothingCategory.valueOf(jsonObject.getString("category"));
+            Color color = Color.valueOf(jsonObject.getString("color"));
+            Boolean isClean = jsonObject.getBoolean("clean?");
+            Clothing clothing = new Clothing(name, category, color);
+            c.addClothingToCloset(clothing);
+        } catch (ClothingException ex) {
+            System.out.println("error adding clothing item to closet");
+        }
     }
 
     // MODIFIES: closet
     // EFFECTS: parses outfits from JSON object and adds them to closet
-    private void addOutfits(Closet c, JSONObject jsonObject) {
+    private void addOutfits(Closet c, JSONObject jsonObject) throws ClothingException {
         JSONArray jsonArray = jsonObject.getJSONArray("outfits");
         for (Object json : jsonArray) {
             JSONObject nextOutfit = (JSONObject) json;
@@ -83,15 +88,20 @@ public class JsonReader {
 
     // MODIFIES: closet
     // EFFECTS: parses clothing from JSON object and adds it to closet
-    private void addOutfit(Closet c, JSONObject jsonObject) {
+    private void addOutfit(Closet c, JSONObject jsonObject) throws ClothingException {
         String outfitName = jsonObject.getString("name");
         Outfit outfit = new Outfit(outfitName);
 
         JSONArray clothesArray = jsonObject.getJSONArray("collection");
         for (Object json : clothesArray) {
             JSONObject nextClothing = (JSONObject) json;
-            Clothing clothing = parseClothing(nextClothing);
-            outfit.addClothingToOutfit(clothing);
+            Clothing clothing;
+            try {
+                clothing = parseClothing(nextClothing);
+                outfit.addClothingToOutfit(clothing);
+            } catch (ClothingException ex) {
+                System.out.println("error adding outfit to outfit");
+            }
         }
 
         c.addOutfitToCloset(outfit);
@@ -103,6 +113,7 @@ public class JsonReader {
         ClothingCategory category = ClothingCategory.valueOf(jsonObject.getString("category"));
         Color color = Color.valueOf(jsonObject.getString("color"));
         Boolean isClean = jsonObject.getBoolean("clean?");
+        Integer timesUsed = jsonObject.getInt("times worn");
 
         return new Clothing(name, category, color);
     }

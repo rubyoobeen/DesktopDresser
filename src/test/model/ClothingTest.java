@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.ClothingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,76 +11,82 @@ class ClothingTest {
 
     @BeforeEach
     void runBefore() {
-        testClothing = new Clothing("T-Shirt", ClothingCategory.TOP, Color.WHITE);
+        testClothing = new Clothing("test clothing", ClothingCategory.TOP, Color.WHITE);
     }
 
     @Test
     void testConstructor() {
-        assertEquals("T-Shirt", testClothing.getItem());
+        assertEquals("test clothing", testClothing.getItem());
         assertEquals(ClothingCategory.TOP, testClothing.getCategory());
         assertEquals(Color.WHITE, testClothing.getColor());
         assertTrue(testClothing.isClean());
+        assertEquals(0, testClothing.getTimesUsed());
+    }
+
+    @Test
+    void testSetDirty() {
+        try {
+            testClothing.setDirty();
+            assertFalse(testClothing.isClean());
+        } catch (ClothingException ex) {
+            fail("unexpected ClothingException");
+        }
+
+        try {
+            testClothing.setDirty();
+            fail("expected ClothingException");
+        } catch (ClothingException ex) {
+            // expected ClothingException
+        }
     }
 
     @Test
     void testUse() {
-        Clothing clothing = new Clothing("Shirt", ClothingCategory.TOP, Color.ORANGE);
-
-        // item is clean
-        assertTrue(clothing.isClean());
-
-        // using item 1 time
-        clothing.worn();
-        assertEquals(1, clothing.getTimesWorn());
-        clothing.worn();
-        clothing.worn();
-        clothing.worn();
-        clothing.worn();
-
-        // using item 5 times
-        assertEquals(5, clothing.getTimesWorn());
-
-        // try using more than 5 times
-        clothing.worn();
-        assertFalse(clothing.isClean());
-
-        // timesUsed stay the same
-        assertEquals(5, clothing.getTimesWorn());
+        try {
+            testClothing.use();
+            assertEquals(1, testClothing.getTimesUsed());
+            testClothing.use();
+            testClothing.use();
+            testClothing.use();
+            testClothing.use();
+            assertEquals(5, testClothing.getTimesUsed());
+        } catch (ClothingException ex) {
+            fail("unexpected ClothingException");
+        }
     }
 
     @Test
-    void testWashClean() {
-        Clothing clothing = new Clothing("Sneakers", ClothingCategory.SHOES, Color.MIX);
+    void testWash() {
+        try {
+            testClothing.setDirty();
+            assertFalse(testClothing.isClean());
+            testClothing.setClean();
+            assertTrue(testClothing.isClean());
+        } catch (ClothingException ex) {
+            fail("unexpected ClothingException");
+        }
 
-        // use item less than 5 times
-        assertTrue(clothing.isClean());
-        clothing.worn();
-        clothing.worn();
-        // item is still clean
-        assertTrue(clothing.isClean());
-        assertEquals(2, clothing.getTimesWorn());
-        // cannot wash item and timesUsed stays same
-        clothing.wash();
-        assertEquals(2, clothing.getTimesWorn());
+        try {
+            testClothing.setClean();
+            assertTrue(testClothing.isClean());
+            fail("expected ClothingException");
+        } catch (ClothingException ex) {
+            // expected ClothingException
+        }
     }
 
     @Test
-    void testWashDirty() {
-        Clothing clothing = new Clothing("Jeans", ClothingCategory.BOT, Color.BLACK);
+    void testEquals() {
+        Clothing testDifferentItem = new Clothing("test clothing1", ClothingCategory.TOP, Color.WHITE);
+        assertFalse(testClothing.equals(testDifferentItem));
 
-        // item is clean
-        assertTrue(clothing.isClean());
-        clothing.worn();
-        clothing.worn();
-        clothing.worn();
-        clothing.worn();
-        clothing.worn();
+        Clothing testDifferentCategory = new Clothing("test clothing", ClothingCategory.BOT, Color.WHITE);
+        assertFalse(testClothing.equals(testDifferentCategory));
 
-        // item is dirty
-        assertFalse(clothing.isClean());
+        Clothing testDifferentColor = new Clothing("test clothing", ClothingCategory.TOP, Color.GREEN);
+        assertFalse(testClothing.equals(testDifferentColor));
 
-        // item is clean after wash
-        clothing.wash();
-        assertTrue(clothing.isClean());
+        Clothing testSame = new Clothing("test clothing", ClothingCategory.TOP, Color.WHITE);
+        assertTrue(testClothing.equals(testSame));
     }
 }
