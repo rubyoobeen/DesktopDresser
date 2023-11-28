@@ -1,0 +1,87 @@
+{
+  "outfits": [
+    {
+      "name": "casual",
+      "collection": [
+        {
+          "item": "Jeans",
+          "category": "BOT",
+          "color": "BLUE",
+          "clean?": "false",
+          "timesUsed": "15"
+        },
+        {
+          "item": "T-Shirt",
+          "category": "TOP",
+          "color": "WHITE",
+          "clean?": "true",
+          "timesUsed": "35"
+        },
+        {
+          "item": "Sneakers",
+          "category": "SHOES",
+          "color": "BLACK",
+          "clean?": "true",
+          "timesUsed": "3"
+        }
+      ]
+    },
+    {
+      "name": "formal",
+      "collection": [
+        {
+          "item": "Suit",
+          "category": "DRESS",
+          "color": "BLACK",
+          "clean?": "true",
+          "timesUsed": "10"
+        },
+        {
+          "item": "Dress-Shoes",
+          "category": "SHOES",
+          "color": "BLACK",
+          "clean?": "false",
+          "timesUsed": "10"
+        }
+      ]
+    }
+  ],
+  "clothing items": [
+    {
+      "item": "Jeans",
+      "category": "BOT",
+      "color": "BLUE",
+      "clean?": "false",
+      "timesUsed": "15"
+    },
+    {
+      "item": "T-Shirt",
+      "category": "TOP",
+      "color": "WHITE",
+      "clean?": "true",
+      "timesUsed": "35"
+    },
+    {
+      "item": "Sneakers",
+      "category": "SHOES",
+      "color": "BLACK",
+      "clean?": "true",
+      "timesUsed": "3"
+    },
+    {
+      "item": "Suit",
+      "category": "DRESS",
+      "color": "BLACK",
+      "clean?": "true",
+      "timesUsed": "10"
+    },
+    {
+      "item": "Dress-Shoes",
+      "category": "SHOES",
+      "color": "BLACK",
+      "clean?": "false",
+      "timesUsed": "10"
+    }
+  ],
+  "name": "my closet"
+}
