@@ -23,24 +23,16 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
-    // be opened for writing
+    //          be opened for writing
     public void open() throws FileNotFoundException {
-        try {
-            writer = new PrintWriter(new File(destination));
-        } catch (FileNotFoundException ex) {
-            throw new FileNotFoundException("error opening file");
-        }
+        writer = new PrintWriter(new File(destination));
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of closet to file
     public void write(Closet c) {
-        if (c != null) {
-            JSONObject json = c.toJson();
-            saveToFile(json.toString(TAB));
-        } else {
-            throw new IllegalArgumentException("cannot write null Closet to file");
-        }
+        JSONObject json = c.toJson();
+        saveToFile(json.toString(TAB));
     }
 
     // MODIFIES: this

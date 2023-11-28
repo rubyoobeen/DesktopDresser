@@ -52,7 +52,7 @@ public class JsonReader {
     }
 
     // MODIFIES: closet
-    // EFFECTS: parses clothings from JSON object and adds them to closet
+    // EFFECTS: parses clothing items from JSON object and adds them to closet
     private void addClothings(Closet c, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("clothing items");
         for (Object json : jsonArray) {
@@ -69,6 +69,7 @@ public class JsonReader {
             ClothingCategory category = ClothingCategory.valueOf(jsonObject.getString("category"));
             Color color = Color.valueOf(jsonObject.getString("color"));
             Boolean isClean = jsonObject.getBoolean("clean?");
+            Integer timesWorn = jsonObject.getInt("timesWorn");
             Clothing clothing = new Clothing(name, category, color);
             c.addClothingToCloset(clothing);
         } catch (ClothingException ex) {
@@ -100,10 +101,9 @@ public class JsonReader {
                 clothing = parseClothing(nextClothing);
                 outfit.addClothingToOutfit(clothing);
             } catch (ClothingException ex) {
-                System.out.println("error adding outfit to outfit");
+                System.out.println("error adding clothing to outfit");
             }
         }
-
         c.addOutfitToCloset(outfit);
     }
 
