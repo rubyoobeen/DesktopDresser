@@ -31,7 +31,7 @@ public class ClosetUI {
     // EFFECTS: runs application by opening closet and displaying menu
     public void runCloset() {
         openDresser();
-        clothingUI = new ClothingUI(input, closet);
+        clothingUI = new ClothingUI(input, closet, this);
         outfitUI = new OutfitUI(input, closet);
         showMainMenu();
     }

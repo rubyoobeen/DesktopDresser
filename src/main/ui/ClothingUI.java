@@ -17,9 +17,10 @@ public class ClothingUI {
     private ClosetUI closetUI;
 
     // EFFECTS: constructor that takes input and closet as parameters
-    public ClothingUI(Scanner input, Closet closet) {
+    public ClothingUI(Scanner input, Closet closet, ClosetUI closetUI) {
         this.input = input;
         this.closet = closet;
+        this.closetUI = closetUI;
     }
 
     // EFFECTS: displays clothing menu
