@@ -18,9 +18,10 @@ public class OutfitUI {
     private ClosetUI closetUI;
 
     // EFFECTS: constructor that takes input and closet as parameters
-    public OutfitUI(Scanner input, Closet closet) {
+    public OutfitUI(Scanner input, Closet closet, ClosetUI closetUI) {
         this.input = input;
         this.closet = closet;
+        this.closetUI = closetUI;
     }
 
     // EFFECTS: displays outfit menu
@@ -33,12 +34,12 @@ public class OutfitUI {
     }
 
     // EFFECTS: processes user input
-    private void displayMenu() {
+    public void displayMenu() {
         int choice = 0;
 
         do {
             showMenu();
-            choice = getValidChoice(1, 4);
+            choice = getValidChoice(4);
 
             if (choice == 1) {
                 buildOutfit();
@@ -62,32 +63,62 @@ public class OutfitUI {
         String outfitName = input.nextLine();
 
         if (!containsOutfit(outfitName)) {
-            int outfitTypeChoice = selectedOutfitType();
-
-            List<Clothing> selectedClothings = new ArrayList<>();
-
-            if (outfitTypeChoice == 1) {
-                selectedClothingsForCategories(selectedClothings, ClothingCategory.TOP, ClothingCategory.BOT,
-                        ClothingCategory.OUTER, ClothingCategory.ACC, ClothingCategory.SHOES);
-            } else {
-                selectedClothingsForCategories(selectedClothings,
-                        ClothingCategory.DRESS, ClothingCategory.OUTER, ClothingCategory.ACC, ClothingCategory.SHOES);
-            }
-
-            makeNewOutfit(outfitName, selectedClothings);
+            tryMakeOutfit(outfitName);
         } else {
             System.out.println("Error: Same Outfit Name Exists");
         }
     }
 
+    // EFFECTS: tries to make a new outfit and returns true if successful, false otherwise
+    private boolean tryMakeOutfit(String outfitName) {
+        int outfitTypeChoice = selectedOutfitType();
+        List<Clothing> selectedClothings = new ArrayList<>();
+
+        if (outfitTypeChoice == 1) {
+            return tryTopBotOutfit(outfitName, selectedClothings);
+        } else {
+            return tryDressOutfit(outfitName, selectedClothings);
+        }
+    }
+
+    // EFFECTS: tries to make a new top-bottom outfit and returns true if successful, false otherwise
+    private boolean tryTopBotOutfit(String outfitName, List<Clothing> selectedClothings) {
+        return tryMakeOutfitWithCategories(outfitName, selectedClothings,
+                ClothingCategory.TOP, ClothingCategory.BOT,
+                ClothingCategory.OUTER, ClothingCategory.ACC, ClothingCategory.SHOES);
+    }
+
+    // EFFECTS: tries to make a new dress outfit and returns true if successful, false otherwise
+    private boolean tryDressOutfit(String outfitName, List<Clothing> selectedClothings) {
+        return tryMakeOutfitWithCategories(outfitName, selectedClothings,
+                ClothingCategory.DRESS, ClothingCategory.OUTER, ClothingCategory.ACC, ClothingCategory.SHOES);
+    }
+
+    // EFFECTS: tries to make a new outfit with categories and returns true, false otherwise
+    private boolean tryMakeOutfitWithCategories(String outfitName, List<Clothing> selectedClothings,
+                                                ClothingCategory... categories) {
+        selectedClothingsForCategories(selectedClothings, categories);
+
+        if (!selectedClothings.isEmpty()) {
+            makeNewOutfit(outfitName, selectedClothings);
+            return true;
+        } else {
+            System.out.println("Error: Cannot Make Outfit - No Items Selected");
+            return false;
+        }
+    }
+
+    // EFFECTS: display outfit types for user to choose and get user choice
     private int selectedOutfitType() {
         System.out.println("Choose the type of Outfit: ");
         System.out.println("1. Top and Bottom");
         System.out.println("2. Dress | Full-Body");
 
-        return getValidChoice(1, 2);
+        return getValidChoice(2);
     }
 
+    // MODIFIES: selectedClothings
+    // EFFECTS: prompts user to select clothing items from specified categories
     private void selectedClothingsForCategories(List<Clothing> selectedClothings, ClothingCategory... categories) {
         for (ClothingCategory category : categories) {
             List<Clothing> availableItems = closet.getClothingsByCategory(category);
@@ -97,15 +128,19 @@ public class OutfitUI {
                 continue;
             }
 
-            System.out.println("Choose [" + category + "] from Option: ");
-            availableItems.forEach(item -> System.out.println(item));
+            System.out.println("Choose [" + category + "] from Option (or 0 for skip): ");
+            for (int i = 1; i <= availableItems.size(); i++) {
+                System.out.println(i + ": " + availableItems.get(i - 1).toString());
+            }
 
-            int choice = getValidChoice(1, availableItems.size()) - 1;
-            selectedClothings.add(availableItems.get(choice));
+            int choice = getValidChoice(availableItems.size());
 
-            System.out.println("Item ["
-                    + selectedClothings.get(selectedClothings.size() - 1).getItem()
-                    + "] Added to Outfit");
+            if (choice > 0) {
+                selectedClothings.add(availableItems.get(choice - 1));
+                System.out.println("Chosen [" + selectedClothings.get(selectedClothings.size() - 1).getItem() + "]");
+            } else {
+                System.out.println("Skipped Category [" + category + "]");
+            }
         }
     }
 
@@ -115,10 +150,17 @@ public class OutfitUI {
         for (Clothing selectedClothing : selectedClothings) {
             try {
                 newOutfit.addClothingToOutfit(selectedClothing);
-                System.out.println("Item [" + selectedClothing.getItem() + "] Added to Outfit");
+                System.out.println("Item [" + selectedClothing.getItem() + "] Added to Outfit [" + outfitName + "]");
             } catch (ClothingException ex) {
-                System.out.println("Error: Cannot Add Item");
+                System.out.println("Error: Cannot Add Item + [" + selectedClothing.getItem() + "]");
             }
+        }
+
+        try {
+            closet.addOutfitToCloset(newOutfit);
+            System.out.println("Outfit [" + outfitName + "] Added to Closet");
+        } catch (ClothingException ex) {
+            System.out.println("Error: Cannot Add Outfit to Closet");
         }
     }
 
@@ -127,23 +169,27 @@ public class OutfitUI {
         return closet.getOutfits().stream().anyMatch(outfit -> outfit.getName().equalsIgnoreCase(outfitName));
     }
 
-    //MODOFIES: this
-    // EFFECTS: delets an outfit from the closet
+    // MODIFIES: this
+    // EFFECTS: deletes an outfit from the closet
     private void deleteOutfit() {
-        System.out.println("Enter Name of Outfit: ");
-        String outfitName = input.nextLine();
+        if (!closet.getOutfits().isEmpty()) {
+            System.out.println("Enter Name of Outfit: ");
+            String outfitName = input.nextLine();
 
-        Outfit outfitToDelete = closet.findOutfitByName(outfitName);
+            Outfit outfitToDelete = closet.findOutfitByName(outfitName);
 
-        if (outfitToDelete != null) {
-            try {
-                closet.removeOutfitFromCloset(outfitToDelete);
-                System.out.println("Outfit [" + outfitName + "] Deleted");
-            } catch (ClothingException ex) {
+            if (outfitToDelete != null) {
+                try {
+                    closet.removeOutfitFromCloset(outfitToDelete);
+                    System.out.println("Outfit [" + outfitName + "] Deleted");
+                } catch (ClothingException ex) {
+                    System.out.println("Error: Outfit Not Found");
+                }
+            } else {
                 System.out.println("Error: Outfit Not Found");
             }
         } else {
-            System.out.println("Error: Outfit Not Found");
+            System.out.println("There are no Outfits");
         }
     }
 
@@ -166,15 +212,17 @@ public class OutfitUI {
                     }
                 }
             }
+        } else {
+            System.out.println("There are no Outfits");
         }
     }
 
     // EFFECTS: returns user's input if it's a valid input
-    private int getValidChoice(int min, int max) {
+    private int getValidChoice(int max) {
         while (true) {
             try {
                 int choice = input.nextInt();
-                if (choice >= min && choice <= max) {
+                if (choice >= 0 && choice <= max) {
                     return choice;
                 } else {
                     System.out.println("Error: Invalid Input");

@@ -85,17 +85,25 @@ public class ClothingUI {
 
     // EFFECTS: delete clothing item from the closet
     private void deleteClothing() {
-        System.out.println("Enter Clothing Item: ");
-        String itemName = input.nextLine();
+        System.out.println("Select Clothing Item to Remove from Closet: ");
 
-        ClothingCategory category = whatCategory();
-        Color color = whatColor();
+        List<Clothing> clothingItems = closet.getClothingsFromCloset();
+
+        if (clothingItems.isEmpty()) {
+            System.out.println("Your Closet is Empty");
+            return;
+        }
+
+        displayListWithIndex(clothingItems);
+
+        int choice = getValidChoice(1, clothingItems.size()) - 1;
 
         try {
-            closet.removeClothingFromCloset(new Clothing(itemName, category, color));
-            System.out.println("Success: Item [" + itemName + "] Removed");
+            Clothing clothingToRemove = clothingItems.get(choice);
+            closet.removeClothingFromCloset(clothingToRemove);
+            System.out.println("Success: Item [" + clothingToRemove.getItem() + "] Removed");
         } catch (ClothingException ex) {
-            System.out.println("Error: Item [" + itemName + "] Doesn't Exist");
+            System.out.println("Error: Cannot Delete Item");
         }
     }
 
@@ -108,13 +116,18 @@ public class ClothingUI {
         if (clothingItems.isEmpty()) {
             System.out.println("Your Closet is Empty");
         } else {
-            int index = 1;
-            for (Clothing c : clothingItems) {
-                System.out.println(index + ". " + c.toString());
-                index++;
-            }
+            displayListWithIndex(clothingItems);
         }
-        System.out.println();
+        System.out.println("\n");
+    }
+
+    // EFFECTS: displays list of clothing items with index
+    private void displayListWithIndex(List<Clothing> clothingItems) {
+        int index = 1;
+        for (Clothing c : clothingItems) {
+            System.out.println(index + ". " + c.toString());
+            index++;
+        }
     }
 
     // EFFECTS: prints the list of clothing items in the closet by categories
@@ -125,13 +138,9 @@ public class ClothingUI {
             List<Clothing> categoryItems = closet.getClothingsByCategory(category);
 
             if (categoryItems.isEmpty()) {
-                System.out.println("No Items in Category [" + category + "]");
+                System.out.println("No Items");
             } else {
-                int index = 1;
-                for (Clothing c : categoryItems) {
-                    System.out.println(index + ". " + c.toString());
-                    index++;
-                }
+                displayListWithIndex(categoryItems);
             }
             System.out.println();
         }
@@ -145,13 +154,9 @@ public class ClothingUI {
             List<Clothing> categoryItems = closet.getClothingByColor(color);
 
             if (categoryItems.isEmpty()) {
-                System.out.println("No Items in Color [" + color + "]");
+                System.out.println("No Items");
             } else {
-                int index = 1;
-                for (Clothing c : categoryItems) {
-                    System.out.println(index + ". " + c.toString());
-                    index++;
-                }
+                displayListWithIndex(categoryItems);
             }
             System.out.println();
         }

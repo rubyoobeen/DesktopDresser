@@ -69,13 +69,15 @@
 //
 //    // represents action to be taken when user wants to open clothing menu
 //    private class ClothingMenuAction extends AbstractAction {
+//        private JInternalFrame clothingMenu;
+//
 //        ClothingMenuAction() {
 //            super("Clothing Menu");
 //        }
 //
 //        @Override
 //        public void actionPerformed(ActionEvent evt) {
-//            if (clothing
+//            if (clothingMenu == nul || !clothingMenu.isV
 //        }
 //    }
 //

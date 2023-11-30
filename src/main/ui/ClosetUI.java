@@ -32,7 +32,7 @@ public class ClosetUI {
     public void runCloset() {
         openDresser();
         clothingUI = new ClothingUI(input, closet, this);
-        outfitUI = new OutfitUI(input, closet);
+        outfitUI = new OutfitUI(input, closet, this);
         showMainMenu();
     }
 
@@ -42,7 +42,7 @@ public class ClosetUI {
         System.out.println("Welcome to My Closet App");
         System.out.println("1. Load saved Closet");
         System.out.println("2. Start new Closet");
-        int choice = getValidChoice(1,2);
+        int choice = getValidChoice(2);
 
         if (choice == 1) {
             loadDresser();
@@ -89,12 +89,12 @@ public class ClosetUI {
 
     // EFFECTS: processes user input
     private void displayMenu() {
-        int choice = getValidChoice(1, 4);
+        int choice = getValidChoice(4);
 
         if (choice == 1) {
             clothingUI.displayMenu();
         } else if (choice == 2) {
-            outfitUI.showMenu();
+            outfitUI.displayMenu();
         } else if (choice == 3) {
             saveCloset();
         } else {
@@ -111,16 +111,16 @@ public class ClosetUI {
             System.out.println("Saved Closet to: " + JSON_STORE);
         } catch (IOException ex) {
             System.out.println("Error: Cannot Save Closet to: " + JSON_STORE);
-            ex.printStackTrace();
         }
+        showMainMenu();
     }
 
     // EFFECTS: returns user's input if it's a valid input
-    private int getValidChoice(int min, int max) {
+    private int getValidChoice(int max) {
         while (true) {
             try {
                 int choice = input.nextInt();
-                if (choice >= min && choice <= max) {
+                if (choice >= 1 && choice <= max) {
                     return choice;
                 } else {
                     throw new InputMismatchException("Error: Invalid Input");
