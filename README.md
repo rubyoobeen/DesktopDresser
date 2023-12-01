@@ -36,14 +36,15 @@ and show your sense of fashion!
 > - I want to be able to select a clothing item from my closet.
 > - I want to be able to view a list of clothing in 'top' category.
 > - I want to be able to add a clothing item to closet and specify the name, category, color, and if it's clean or dirty.
-> - I want to be able to sort a clothing item to days regarding restrictions.
+> - I want to be able to sort a clothing item to outfits.
 > 
 > Phase 2:
 > - As a user, when I start application, I want to be given a menu.
-> - As a user, when I select application menu, I want to open the closet and view all my clothing items.
+> - As a user, when I select main menu, I want to open the closet and view all my clothing items.
 > 
 > Phase 3:
-> - As a user, I want to be able to add multiple clothes to the closet
+> - As a user, I want to be able to add multiple clothing items to the closet.
+> - As a user, I want to be able to load previous files and save current file.
 
 ### Instructions for Grader
 

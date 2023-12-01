@@ -6,13 +6,10 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 // Represents application's main window frame
@@ -72,13 +69,6 @@ public class DesktopDresserApp extends JFrame {
         buttonPanel.add(new JButton(new LoadClosetAction()));
         buttonPanel.add(new JButton(new NewClosetAction()));
         return buttonPanel;
-    }
-
-    // creates setup buttons
-    private JButton createButton(String text, ActionListener actionListener) {
-        JButton button = new JButton(text);
-        button.addActionListener(actionListener);
-        return button;
     }
 
     // loads closet from JSON_STORE and initialize main menu

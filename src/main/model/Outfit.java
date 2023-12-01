@@ -47,7 +47,6 @@ public class Outfit implements Writable {
     // EFFECTS: adds clothing item to collection if it meets criteria, throw exception otherwise
     public void addClothingToOutfit(Clothing clothing) throws ClothingException {
         if (noDuplicateItem(clothing) && outfitRestrictions(clothing.getCategory())) {
-            clothing.getTimesUsed();
             collection.add(clothing);
             usedCategories.add(clothing.getCategory());
         } else {
@@ -121,8 +120,6 @@ public class Outfit implements Writable {
             clothingJson.put("item", c.getItem());
             clothingJson.put("category", c.getCategory());
             clothingJson.put("color", c.getColor());
-            clothingJson.put("clean?", c.isClean());
-            clothingJson.put("times worn", c.getTimesUsed());
             jsonArray.put(clothingJson);
         }
 

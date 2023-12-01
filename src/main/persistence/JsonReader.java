@@ -69,7 +69,6 @@ public class JsonReader {
             ClothingCategory category = ClothingCategory.valueOf(jsonObject.getString("category"));
             Color color = Color.valueOf(jsonObject.getString("color"));
             Boolean isClean = jsonObject.getBoolean("clean?");
-            Integer timesWorn = jsonObject.getInt("times worn");
             Clothing clothing = new Clothing(name, category, color);
             c.addClothingToCloset(clothing);
         } catch (ClothingException ex) {
@@ -112,8 +111,6 @@ public class JsonReader {
         String name = jsonObject.getString("item");
         ClothingCategory category = ClothingCategory.valueOf(jsonObject.getString("category"));
         Color color = Color.valueOf(jsonObject.getString("color"));
-        Boolean isClean = jsonObject.getBoolean("clean?");
-        Integer timesUsed = jsonObject.getInt("times worn");
 
         return new Clothing(name, category, color);
     }

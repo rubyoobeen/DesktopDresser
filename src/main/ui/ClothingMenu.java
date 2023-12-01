@@ -7,6 +7,7 @@ import model.Color;
 import model.exception.ClothingException;
 
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,19 +16,17 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 // Represents application's main menu window frame
-public class ClothingMenu extends JFrame {
+public class ClothingMenu extends JInternalFrame {
     private Closet closet;
-    private JList<Clothing> clothingList;
-    private DefaultListModel<Clothing> clothingListModel;
-    private JComboBox<ClothingCategory> categoryComboBox;
-    private JComboBox<Color> colorComboBox;
+    private JTable clothingTable;
+    private DefaultTableModel tableModel;
     private JTextField textField;
-    private JButton addButton;
-    private JButton deleteButton;
+    private JComboBox<Color> colorComboBox;
+    private JComboBox<ClothingCategory> categoryComboBox;
 
     // Constructor that takes a Closet object and initialize the frame
-    public ClothingMenu(Closet closet) {
-        this.closet = closet;
+    public ClothingMenu(Closet loadedCloset) {
+        this.closet = loadedCloset;
         initialize();
     }
 
@@ -35,93 +34,153 @@ public class ClothingMenu extends JFrame {
     private void initialize() {
         setTitle("CLOTHING");
         setSize(800,600);
-
-        createClothingList();
         setLayout(new BorderLayout());
-        add(new JScrollPane(clothingList), BorderLayout.CENTER);
-        createWestPanel();
-        add(createWestPanel(), BorderLayout.WEST);
+
+        createClothingTable();
+        add(new JScrollPane(clothingTable), BorderLayout.CENTER);
+
+        createSouthPanel();
+        add(createSouthPanel(), BorderLayout.SOUTH);
     }
 
-    // creates clothing list
-    private void createClothingList() {
-        clothingListModel = new DefaultListModel<>();
-        clothingList = new JList<>(clothingListModel);
+    // creates clothing table
+    private void createClothingTable() {
+        String[] columnNames = {"Item", "Category", "Color", "Clean?"};
+        tableModel = new DefaultTableModel(columnNames, 0);
+        clothingTable = new JTable(tableModel);
 
-        updateClothingList();
+        clothingTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        clothingList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        clothingList.addMouseListener(new ClothingListMouseAdapter(clothingList));
-        add(new JScrollPane(clothingList), BorderLayout.CENTER);
-    }
+        TableColumnModel columnModel = clothingTable.getColumnModel();
+        columnModel.getColumn(3).setCellRenderer(new CheckBoxRenderer());
 
-    // creates panel for WEST of frame
-    private JPanel createWestPanel() {
-        JPanel westPanel = new JPanel();
-        westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
+        clothingTable.addMouseListener(new ClothingTableMouseAdapter(clothingTable));
 
-        textField = createTextField();
-        addComponentWithLabel(westPanel, "Enter Item:", textField);
-        categoryComboBox = createComboBox(ClothingCategory.values());
-        addComponentWithLabel(westPanel, "Category:", categoryComboBox);
-        colorComboBox = createComboBox(Color.values());
-        addComponentWithLabel(westPanel, "Color:", categoryComboBox);
-
-        addButton = createButton("Add", this::addClothing);
-        westPanel.add(addButton);
-        deleteButton = createButton("Delete", this::deleteClothing);
-        westPanel.add(deleteButton);
-
-        return westPanel;
+        updateClothingTable(closet);
     }
 
     // updates clothing to the list
-    private void updateClothingList() {
+    private void updateClothingTable(Closet closet) {
+        tableModel.setRowCount(0);
         List<Clothing> closetItems = closet.getClothingsFromCloset();
 
         for (Clothing clothing : closetItems) {
-            clothingListModel.addElement(clothing);
+            Object[] rowData = {clothing.getItem(), clothing.getCategory(), clothing.getColor(),
+                    clothing.isClean()};
+            tableModel.addRow(rowData);
         }
+    }
+
+    // creates panel for WEST of frame
+    private JPanel createSouthPanel() {
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+
+        JPanel firstRow = createFirstRowPanel();
+        southPanel.add(firstRow);
+        JPanel secondRow = createSecondRowPanel();
+        southPanel.add(secondRow);
+
+        return southPanel;
+    }
+
+    // creates first row of the south panel
+    private JPanel createFirstRowPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        textField = createTextField();
+        categoryComboBox = createComboBox(ClothingCategory.values());
+        colorComboBox = createComboBox(Color.values());
+
+        panel.add(createLabel("Item:"));
+        panel.add(textField);
+        panel.add(createLabel("Category:"));
+        panel.add(colorComboBox);
+        panel.add(createLabel("Color:"));
+        panel.add(colorComboBox);
+
+        return panel;
+    }
+
+    // creates second row of the south panel
+    private JPanel createSecondRowPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        panel.add(new JButton(new AddClothingAction()));
+        panel.add(new JButton(new DeleteClothingAction()));
+
+        return panel;
     }
 
     // adds new clothing to closet and updates the clothing list
-    private void addClothing(ActionEvent evt) {
-        try {
-            String itemName = textField.getText();
-            ClothingCategory selectedCategory = (ClothingCategory) categoryComboBox.getSelectedItem();
-            Color selectedColor = (Color) colorComboBox.getSelectedItem();
+    private class AddClothingAction extends AbstractAction {
+        private Closet updatedCloset;
 
-            Clothing newClothing = new Clothing(itemName, selectedCategory, selectedColor);
-            closet.addClothingToCloset(newClothing);
+        AddClothingAction() {
+            super("Add");
+            this.updatedCloset = closet;
+        }
 
-            updateClothingList();
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            try {
+                String itemName = textField.getText();
+                ClothingCategory selectedCategory = (ClothingCategory) categoryComboBox.getSelectedItem();
+                Color selectedColor = (Color) colorComboBox.getSelectedItem();
 
-            JOptionPane.showMessageDialog(this, "Success: Item Added");
-        } catch (ClothingException ex) {
-            JOptionPane.showMessageDialog(this, "Error: Item Not Added",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
+                Clothing newClothing = new Clothing(itemName, selectedCategory, selectedColor);
+                updatedCloset.addClothingToCloset(newClothing);
+
+                updateClothingTable(updatedCloset);
+
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Success: Item Added");
+            } catch (ClothingException ex) {
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: Item Not Added",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
-    // deletes clothing from the closet and updates the clothing list
-    private void deleteClothing(ActionEvent evt) {
-        int selectedIndex = clothingList.getSelectedIndex();
+    // deletes selected clothing item from the table
+    private class DeleteClothingAction extends AbstractAction {
+        private Closet updatedCloset;
 
-        if (selectedIndex != -1) {
-            Clothing selectedClothing = clothingListModel.getElementAt(selectedIndex);
+        DeleteClothingAction() {
+            super("Delete");
+            this.updatedCloset = closet;
+        }
 
-            try {
-                closet.removeClothingFromCloset(selectedClothing);
-                updateClothingList();
-                JOptionPane.showMessageDialog(this, "Success: Item Deleted");
-            } catch (ClothingException ex) {
-                JOptionPane.showMessageDialog(this, "Error: Item Not Deleted",
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            int selectedIndex = clothingTable.getSelectedRow();
+
+            if (selectedIndex != -1) {
+                Clothing selectedClothing = getClothingAtRow(selectedIndex);
+
+                try {
+                    updatedCloset.removeClothingFromCloset(selectedClothing);
+                    updateClothingTable(updatedCloset);
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Success: Item Deleted");
+                } catch (ClothingException ex) {
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Error: Item Not Deleted",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: No Item Selected",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: No Item Selected",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // gets clothing object at specific row
+    private Clothing getClothingAtRow(int row) {
+        String itemName = (String) tableModel.getValueAt(row, 0);
+        ClothingCategory category = (ClothingCategory) tableModel.getValueAt(row, 1);
+        Color color = (Color) tableModel.getValueAt(row, 2);
+
+        return new Clothing(itemName, category, color);
     }
 
     // creates text fields
@@ -145,32 +204,36 @@ public class ClothingMenu extends JFrame {
         return comboBox;
     }
 
-    // creates buttons
-    private JButton createButton(String text, ActionListener actionListener) {
-        JButton button = new JButton(text);
-        button.addActionListener(actionListener);
-        button.setPreferredSize(new Dimension(80, 25));
-        return button;
+    // custom cell renderer for rendering a checkbox without label text
+    private class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
+        CheckBoxRenderer() {
+            setHorizontalAlignment(SwingConstants.CENTER);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                       boolean hasFocus, int row, int column) {
+            setSelected((Boolean) value);
+            return this;
+        }
     }
 
-    // add component with label
-    private void addComponentWithLabel(JPanel panel, String labelText, JComponent component) {
-        panel.add(createLabel(labelText));
-        panel.add(component);
-    }
+    private class ClothingTableMouseAdapter extends MouseAdapter {
+        private JTable clothingTable;
 
-    private class ClothingListMouseAdapter extends MouseAdapter {
-        private JList<Clothing> clothingJList;
-
-        public ClothingListMouseAdapter(JList<Clothing> list) {
-            this.clothingJList = list;
+        public ClothingTableMouseAdapter(JTable table) {
+            this.clothingTable = table;
         }
 
         @Override
         public void mouseClicked(MouseEvent evt) {
             if (evt.getClickCount() == 1) {
-                int index = clothingList.locationToIndex(evt.getPoint());
-                clothingList.setSelectedIndex(index);
+                int row = clothingTable.rowAtPoint(evt.getPoint());
+                int col = clothingTable.columnAtPoint(evt.getPoint());
+
+                if (row >= 0 && col >= 0) {
+                    clothingTable.getSelectionModel().setSelectionInterval(row, row);
+                }
             }
         }
     }

@@ -11,15 +11,13 @@ public class Clothing implements Writable {
     private ClothingCategory category;
     private Color color;
     private boolean isClean;
-    private int timesUsed;
 
-    // EFFECTS: constructs a clothing with given item, given category, given color, isClean, and timesUsed
+    // EFFECTS: constructs a clothing with given item, given category, given color, and set to clean
     public Clothing(String clothingItem, ClothingCategory clothingCategory, Color clothingColor) {
         this.item = clothingItem;
         this.category = clothingCategory;
         this.color = clothingColor;
         this.isClean = true;
-        this.timesUsed = 0;
     }
 
     public String getItem() {
@@ -38,10 +36,6 @@ public class Clothing implements Writable {
         return isClean;
     }
 
-    public int getTimesUsed() {
-        return timesUsed;
-    }
-
     // MODIFIES: this
     // EFFECTS: set isClean to dirty = false, throw exception otherwise
     public void setDirty() throws ClothingException {
@@ -49,16 +43,6 @@ public class Clothing implements Writable {
             isClean = false;
         } else {
             throw new ClothingException("item is already dirty");
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: use clothing and updates its timesUsed, throw exception otherwise
-    public void use() throws ClothingException {
-        if (timesUsed < LIMIT) {
-            timesUsed++;
-        } else {
-            throw new ClothingException("item was used too many times");
         }
     }
 
@@ -74,7 +58,7 @@ public class Clothing implements Writable {
 
     // EFFECTS: returns string representation of this clothing, throw exception otherwise
     public String toString() {
-        return "[" + category + "] " + color + " " + item + " | washed: " + isClean + " | [" + timesUsed + "] used";
+        return "[" + category + "] " + color + " " + item + " | washed: " + isClean;
     }
 
     @Override
@@ -98,7 +82,6 @@ public class Clothing implements Writable {
         json.put("category", category);
         json.put("color", color);
         json.put("clean?", isClean);
-        json.put("times worn", timesUsed);
         return json;
     }
 }
