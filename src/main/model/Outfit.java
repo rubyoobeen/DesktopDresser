@@ -121,6 +121,8 @@ public class Outfit implements Writable {
             clothingJson.put("item", c.getItem());
             clothingJson.put("category", c.getCategory());
             clothingJson.put("color", c.getColor());
+            clothingJson.put("clean?", c.isClean());
+            clothingJson.put("times worn", c.getTimesUsed());
             jsonArray.put(clothingJson);
         }
 

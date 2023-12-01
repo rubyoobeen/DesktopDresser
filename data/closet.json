@@ -7,17 +7,23 @@
                 {
                     "item": "T Shirt",
                     "color": "WHITE",
-                    "category": "TOP"
+                    "category": "TOP",
+                    "times worn": 0,
+                    "clean?": true
                 },
                 {
                     "item": "Jeans",
                     "color": "BLUE",
-                    "category": "BOT"
+                    "category": "BOT",
+                    "clean?": true,
+                    "times worn": 0
                 },
                 {
                     "item": "Sneakers",
                     "color": "MIX",
-                    "category": "SHOES"
+                    "category": "SHOES",
+                    "times worn": 0,
+                    "clean?": true
                 }
             ]
         },
@@ -27,22 +33,30 @@
                 {
                     "item": "Prom Dress",
                     "color": "PINK",
-                    "category": "DRESS"
+                    "category": "DRESS",
+                    "times worn": 0,
+                    "clean?": true
                 },
                 {
                     "item": "Shawl",
                     "color": "MIX",
-                    "category": "OUTER"
+                    "category": "OUTER",
+                    "times worn": 0,
+                    "clean?": true
                 },
                 {
                     "item": "Necklace",
                     "color": "PINK",
-                    "category": "ACC"
+                    "category": "ACC",
+                    "times worn": 0,
+                    "clean?": true
                 },
                 {
                     "item": "Heels",
                     "color": "RED",
-                    "category": "SHOES"
+                    "category": "SHOES",
+                    "times worn": 0,
+                    "clean?": true
                 }
             ]
         }
