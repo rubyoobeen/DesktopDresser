@@ -20,7 +20,6 @@ class ClothingTest {
         assertEquals(ClothingCategory.TOP, testClothing.getCategory());
         assertEquals(Color.WHITE, testClothing.getColor());
         assertTrue(testClothing.isClean());
-        assertEquals(0, testClothing.getTimesUsed());
     }
 
     @Test
@@ -37,21 +36,6 @@ class ClothingTest {
             fail("expected ClothingException");
         } catch (ClothingException ex) {
             // expected ClothingException
-        }
-    }
-
-    @Test
-    void testUse() {
-        try {
-            testClothing.use();
-            assertEquals(1, testClothing.getTimesUsed());
-            testClothing.use();
-            testClothing.use();
-            testClothing.use();
-            testClothing.use();
-            assertEquals(5, testClothing.getTimesUsed());
-        } catch (ClothingException ex) {
-            fail("unexpected ClothingException");
         }
     }
 

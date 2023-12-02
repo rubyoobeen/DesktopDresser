@@ -52,189 +52,162 @@
             "item": "Jeans",
             "color": "BLACK",
             "clean?": true,
-            "times worn": 0,
             "category": "BOT"
         },
         {
             "item": "Jeans",
             "color": "BLUE",
             "clean?": true,
-            "times worn": 0,
             "category": "BOT"
         },
         {
             "item": "Prom Dress",
             "color": "PINK",
             "clean?": true,
-            "times worn": 0,
             "category": "DRESS"
         },
         {
             "item": "Rain Coat",
             "color": "YELLOW",
             "clean?": true,
-            "times worn": 0,
             "category": "OUTER"
         },
         {
             "item": "T Shirt",
             "color": "WHITE",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "T Shirt",
             "color": "PURPLE",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Sneakers",
             "color": "MIX",
             "clean?": true,
-            "times worn": 0,
             "category": "SHOES"
         },
         {
             "item": "Dress Shoes",
             "color": "BLACK",
             "clean?": true,
-            "times worn": 0,
             "category": "SHOES"
         },
         {
             "item": "Earrings",
             "color": "ORANGE",
             "clean?": true,
-            "times worn": 0,
             "category": "ACC"
         },
         {
             "item": "Suit",
             "color": "BLACK",
             "clean?": true,
-            "times worn": 0,
             "category": "DRESS"
         },
         {
             "item": "Jacket",
             "color": "RED",
             "clean?": true,
-            "times worn": 0,
             "category": "OUTER"
         },
         {
             "item": "T Shirt",
             "color": "GREEN",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Sweater",
             "color": "WHITE",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Sweater",
             "color": "BLUE",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Pajamas",
             "color": "MIX",
             "clean?": true,
-            "times worn": 0,
             "category": "DRESS"
         },
         {
             "item": "Boots",
             "color": "ORANGE",
             "clean?": true,
-            "times worn": 0,
             "category": "SHOES"
         },
         {
             "item": "Tank Top",
             "color": "BLACK",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Mini Skirt",
             "color": "PINK",
             "clean?": true,
-            "times worn": 0,
             "category": "BOT"
         },
         {
             "item": "Long Skirt",
             "color": "BLACK",
             "clean?": true,
-            "times worn": 0,
             "category": "BOT"
         },
         {
             "item": "Heels",
             "color": "RED",
             "clean?": true,
-            "times worn": 0,
             "category": "SHOES"
         },
         {
             "item": "Blouse",
             "color": "BLUE",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Dress Shirt",
             "color": "WHITE",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Shirt",
             "color": "MIX",
             "clean?": true,
-            "times worn": 0,
             "category": "TOP"
         },
         {
             "item": "Bracelet",
             "color": "YELLOW",
             "clean?": true,
-            "times worn": 0,
             "category": "ACC"
         },
         {
             "item": "Belt",
             "color": "BLACK",
             "clean?": true,
-            "times worn": 0,
             "category": "ACC"
         },
         {
             "item": "Necklace",
             "color": "PINK",
             "clean?": true,
-            "times worn": 0,
             "category": "ACC"
         },
         {
             "item": "Shawl",
             "color": "MIX",
             "clean?": true,
-            "times worn": 0,
             "category": "OUTER"
         }
     ]
