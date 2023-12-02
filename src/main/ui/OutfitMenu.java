@@ -1,10 +1,10 @@
 package ui;
 
 import model.*;
+import model.exception.ClothingException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -45,13 +45,11 @@ public class OutfitMenu extends JInternalFrame {
 
     // creates a main outfit table
     private void createOutfitTable() {
-        String[] columnNames = {"Name", "Collection"};
+        String[] columnNames = {"Name"};
         tableModel = new DefaultTableModel(columnNames, 0);
         outfitTable = new JTable(tableModel);
 
         outfitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        TableColumnModel columnModel = outfitTable.getColumnModel();
 
         outfitTable.addMouseListener(new OutfitTableMouseAdapter(outfitTable));
 
@@ -64,7 +62,7 @@ public class OutfitMenu extends JInternalFrame {
         List<Outfit> outfits = closet.getOutfitsFromCloset();
 
         for (Outfit outfit : outfits) {
-            Object[] rowData = {outfit.getName(), outfit.getCollection()};
+            Object[] rowData = {outfit.getName()};
             tableModel.addRow(rowData);
         }
     }
@@ -121,15 +119,14 @@ public class OutfitMenu extends JInternalFrame {
     // creates make outfit button row
     private JPanel createMakeOutfitRow() {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         JButton makeOutfitButton = new JButton(new MakeOutfitAction());
         panel.add(makeOutfitButton);
 
         return panel;
     }
 
-    // deletes outfit from closet and updates the outfit list
+    // makes outfit from closet and updates the outfit list
     private class MakeOutfitAction extends AbstractAction {
         private Closet updatedCloset;
 
@@ -140,12 +137,24 @@ public class OutfitMenu extends JInternalFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-
+            try {
+                Outfit newOutfit = new Outfit(textField.getText());
+                newOutfit.addClothingToOutfit((Clothing) topCombo.getSelectedItem());
+                newOutfit.addClothingToOutfit((Clothing) botCombo.getSelectedItem());
+                newOutfit.addClothingToOutfit((Clothing) dressCombo.getSelectedItem());
+                newOutfit.addClothingToOutfit((Clothing) outerCombo.getSelectedItem());
+                newOutfit.addClothingToOutfit((Clothing) accCombo.getSelectedItem());
+                newOutfit.addClothingToOutfit((Clothing) shoesCombo.getSelectedItem());
+            } catch (ClothingException ex) {
+                JOptionPane.showMessageDialog(OutfitMenu.this, "Error: Outfit Not Added",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
     // creates combo boxes
     private JComboBox<Clothing> createComboBox(List<Clothing> clothingList) {
+        clothingList.add(0,null);
         JComboBox<Clothing> comboBox = new JComboBox<>(clothingList.toArray(new Clothing[0]));
         comboBox.setPreferredSize(new Dimension(150, 25));
         return comboBox;

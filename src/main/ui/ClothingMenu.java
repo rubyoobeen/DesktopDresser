@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.List;
 
 // Represents application's main menu window frame
@@ -34,12 +35,9 @@ public class ClothingMenu extends JInternalFrame {
         setTitle("CLOTHING");
         setSize(800,600);
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
         createClothingTable();
         add(new JScrollPane(clothingTable), BorderLayout.CENTER);
-
 
         createSouthPanel();
         add(createSouthPanel(), BorderLayout.SOUTH);
