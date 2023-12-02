@@ -13,6 +13,7 @@ import java.util.List;
 
 // Represents application's main menu window frame
 public class OutfitMenu extends JInternalFrame {
+    private static final String JSON_STORE = "./data/closet.json";
     private Closet closet;
     private JTable outfitTable;
     private DefaultTableModel tableModel;
@@ -58,7 +59,6 @@ public class OutfitMenu extends JInternalFrame {
 
     // updates the outfit table with the provided list of outfits
     private void updateOutfitTable(Closet closet) {
-        tableModel.setRowCount(0);
         List<Outfit> outfits = closet.getOutfitsFromCloset();
 
         for (Outfit outfit : outfits) {

@@ -5,6 +5,7 @@ import model.Clothing;
 import model.ClothingCategory;
 import model.Color;
 import model.exception.ClothingException;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -12,11 +13,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
 // Represents application's main menu window frame
 public class ClothingMenu extends JInternalFrame {
+    private static final String JSON_STORE = "./data/closet.json";
     private Closet closet;
     private JTable clothingTable;
     private DefaultTableModel tableModel;
@@ -41,7 +43,6 @@ public class ClothingMenu extends JInternalFrame {
 
         createSouthPanel();
         add(createSouthPanel(), BorderLayout.SOUTH);
-//        add(createEastPanel(), BorderLayout.EAST);
     }
 
     // creates a main clothing table
@@ -62,7 +63,6 @@ public class ClothingMenu extends JInternalFrame {
 
     // updates clothing to the list
     private void updateClothingTable(Closet closet) {
-        tableModel.setRowCount(0);
         List<Clothing> closetItems = closet.getClothingsFromCloset();
 
         for (Clothing clothing : closetItems) {
@@ -71,41 +71,6 @@ public class ClothingMenu extends JInternalFrame {
             tableModel.addRow(rowData);
         }
     }
-
-//    // updates clothing list by same categories
-//    private void updateCategoryTable(Closet closet) {
-//        tableModel.setRowCount(0);
-//        List<Clothing> byCategories = closet.getClothingsByCategory();
-//
-//        for (Clothing clothing : byCategories) {
-//            Object[] rowData = {clothing.getItem(), clothing.getCategory(), clothing.getColor(),
-//                    clothing.isClean()};
-//            tableModel.addRow(rowData);
-//        }
-//    }
-
-//    // updates clothing list by same colors
-//    private void updateColorTable(Closet closet) {
-//        tableModel.setRowCount(0);
-//        List<Clothing> byColors = closet.getClothingByColor();
-//
-//        for (Clothing clothing : byColors) {
-//            Object[] rowData = {clothing.getItem(), clothing.getCategory(), clothing.getColor(),
-//                    clothing.isClean()};
-//            tableModel.addRow(rowData);
-//        }
-//    }
-
-//    // creates panel for EAST of frame
-//    private JPanel createEastPanel() {
-//        JPanel eastPanel = new JPanel();
-//        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.X_AXIS));
-//
-//        eastPanel.add(new JButton(new ViewByCategory()));
-//        eastPanel.add(new JButton(new DeleteClothingAction()));
-//
-//        return eastPanel;
-//    }
 
     // creates panel for WEST of frame
     private JPanel createSouthPanel() {
@@ -146,6 +111,7 @@ public class ClothingMenu extends JInternalFrame {
 
         panel.add(new JButton(new AddClothingAction()));
         panel.add(new JButton(new DeleteClothingAction()));
+        panel.add(new JButton(new SaveExitAction()));
 
         return panel;
     }
@@ -207,6 +173,30 @@ public class ClothingMenu extends JInternalFrame {
                 JOptionPane.showMessageDialog(ClothingMenu.this, "Error: No Item Selected",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    private class SaveExitAction extends AbstractAction {
+        private Closet newCloset;
+
+        SaveExitAction() {
+            super("Exit/Save");
+            this.newCloset = closet;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            saveClosetToJson();
+            closeWindow();
+        }
+
+        private void saveClosetToJson() {
+            JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
+            jsonWriter.write(newCloset);
+        }
+
+        private void closeWindow() {
+            ClothingMenu.this.dispose();
         }
     }
 
