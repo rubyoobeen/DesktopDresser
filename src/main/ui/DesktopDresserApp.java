@@ -122,29 +122,34 @@ public class DesktopDresserApp extends JFrame {
                 if (setupMenu.isVisible()) {
                     setupMenu.setVisible(false);
                 }
-
                 initialMainMenu(closet);
-
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid name. Please enter valid name.");
             }
         }
     }
 
-    // initialize main menu
-    private void initialMainMenu(Closet closet) {
-        mainCloset = closet;
-        mainMenu = new JInternalFrame("MAIN");
-        mainMenu.setSize(300, 600);
-        mainMenu.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
+    // creates main menu
+    private JPanel createMainMenu() {
         JPanel mainMenuPanel = new JPanel(new GridLayout(4, 1));
         mainMenuPanel.add(new JButton(new ClothingAction()));
         mainMenuPanel.add(new JButton(new OutfitAction()));
         mainMenuPanel.add(new JButton(new SaveAction()));
         mainMenuPanel.add(new JButton(new ExitAction()));
 
-        mainMenu.add(mainMenuPanel, BorderLayout.CENTER);
+        return mainMenuPanel;
+    }
+
+    // initialize main menu
+    private void initialMainMenu(Closet closet) {
+        mainCloset = closet;
+        mainMenu = new JInternalFrame("MAIN");
+        mainMenu.setSize(200, 300);
+        mainMenu.setLocation(400, 250);
+
+        JPanel mainMenuPanel = createMainMenu();
+
+        mainMenu.add(mainMenuPanel, BorderLayout.WEST);
         mainMenu.setVisible(true);
 
         desktop.add(mainMenu);
@@ -155,16 +160,15 @@ public class DesktopDresserApp extends JFrame {
         private Closet closet;
 
         ClothingAction() {
-            super("Clothing Menu");
+            super("Clothings");
             this.closet = mainCloset;
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
             ClothingMenu clothingMenu = new ClothingMenu(closet);
-            mainMenu.setVisible(false);
             clothingMenu.setVisible(true);
-            desktop.add(clothingMenu);
+            desktop.add(clothingMenu, BorderLayout.EAST);
         }
     }
 
@@ -173,16 +177,15 @@ public class DesktopDresserApp extends JFrame {
         private Closet closet;
 
         OutfitAction() {
-            super("Outfit Menu");
+            super("View Outfits");
             this.closet = mainCloset;
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
             OutfitMenu outfitMenu = new OutfitMenu(closet);
-            mainMenu.setVisible(false);
             outfitMenu.setVisible(true);
-            desktop.add(outfitMenu);
+            desktop.add(outfitMenu, BorderLayout.EAST);
         }
     }
 

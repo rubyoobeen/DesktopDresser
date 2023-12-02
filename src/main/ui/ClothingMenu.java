@@ -10,7 +10,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -35,15 +34,19 @@ public class ClothingMenu extends JInternalFrame {
         setTitle("CLOTHING");
         setSize(800,600);
         setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         createClothingTable();
         add(new JScrollPane(clothingTable), BorderLayout.CENTER);
 
+
         createSouthPanel();
         add(createSouthPanel(), BorderLayout.SOUTH);
+//        add(createEastPanel(), BorderLayout.EAST);
     }
 
-    // creates clothing table
+    // creates a main clothing table
     private void createClothingTable() {
         String[] columnNames = {"Item", "Category", "Color", "Clean?"};
         tableModel = new DefaultTableModel(columnNames, 0);
@@ -71,6 +74,41 @@ public class ClothingMenu extends JInternalFrame {
         }
     }
 
+//    // updates clothing list by same categories
+//    private void updateCategoryTable(Closet closet) {
+//        tableModel.setRowCount(0);
+//        List<Clothing> byCategories = closet.getClothingsByCategory();
+//
+//        for (Clothing clothing : byCategories) {
+//            Object[] rowData = {clothing.getItem(), clothing.getCategory(), clothing.getColor(),
+//                    clothing.isClean()};
+//            tableModel.addRow(rowData);
+//        }
+//    }
+
+//    // updates clothing list by same colors
+//    private void updateColorTable(Closet closet) {
+//        tableModel.setRowCount(0);
+//        List<Clothing> byColors = closet.getClothingByColor();
+//
+//        for (Clothing clothing : byColors) {
+//            Object[] rowData = {clothing.getItem(), clothing.getCategory(), clothing.getColor(),
+//                    clothing.isClean()};
+//            tableModel.addRow(rowData);
+//        }
+//    }
+
+//    // creates panel for EAST of frame
+//    private JPanel createEastPanel() {
+//        JPanel eastPanel = new JPanel();
+//        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.X_AXIS));
+//
+//        eastPanel.add(new JButton(new ViewByCategory()));
+//        eastPanel.add(new JButton(new DeleteClothingAction()));
+//
+//        return eastPanel;
+//    }
+
     // creates panel for WEST of frame
     private JPanel createSouthPanel() {
         JPanel southPanel = new JPanel();
@@ -96,7 +134,7 @@ public class ClothingMenu extends JInternalFrame {
         panel.add(createLabel("Item:"));
         panel.add(textField);
         panel.add(createLabel("Category:"));
-        panel.add(colorComboBox);
+        panel.add(categoryComboBox);
         panel.add(createLabel("Color:"));
         panel.add(colorComboBox);
 
@@ -238,11 +276,4 @@ public class ClothingMenu extends JInternalFrame {
         }
     }
 
-    // Represents actions to be taken when user clicks desktop to switch focus
-    private class DesktopFocusAction extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            ClothingMenu.this.requestFocusInWindow();
-        }
-    }
 }
