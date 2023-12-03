@@ -45,6 +45,10 @@
                     "category": "SHOES"
                 }
             ]
+        },
+        {
+            "name": "School",
+            "collection": []
         }
     ],
     "clothing items": [
@@ -181,12 +185,6 @@
             "category": "TOP"
         },
         {
-            "item": "Shirt",
-            "color": "MIX",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
             "item": "Bracelet",
             "color": "YELLOW",
             "clean?": true,
@@ -211,7 +209,7 @@
             "category": "OUTER"
         },
         {
-            "item": "Shirt",
+            "item": "T Shirt",
             "color": "RED",
             "clean?": true,
             "category": "TOP"
