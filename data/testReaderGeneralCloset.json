@@ -7,22 +7,19 @@
           "item": "Jeans",
           "category": "BOT",
           "color": "BLUE",
-          "clean?": "false",
-          "timesUsed": "15"
+          "clean?": "false"
         },
         {
           "item": "T-Shirt",
           "category": "TOP",
           "color": "WHITE",
-          "clean?": "true",
-          "timesUsed": "35"
+          "clean?": "true"
         },
         {
           "item": "Sneakers",
           "category": "SHOES",
           "color": "BLACK",
-          "clean?": "true",
-          "timesUsed": "3"
+          "clean?": "true"
         }
       ]
     },
@@ -33,15 +30,13 @@
           "item": "Suit",
           "category": "DRESS",
           "color": "BLACK",
-          "clean?": "true",
-          "timesUsed": "10"
+          "clean?": "true"
         },
         {
           "item": "Dress-Shoes",
           "category": "SHOES",
           "color": "BLACK",
-          "clean?": "false",
-          "timesUsed": "10"
+          "clean?": "false"
         }
       ]
     }
@@ -51,36 +46,31 @@
       "item": "Jeans",
       "category": "BOT",
       "color": "BLUE",
-      "clean?": "false",
-      "timesUsed": "15"
+      "clean?": "false"
     },
     {
       "item": "T-Shirt",
       "category": "TOP",
       "color": "WHITE",
-      "clean?": "true",
-      "timesUsed": "35"
+      "clean?": "true"
     },
     {
       "item": "Sneakers",
       "category": "SHOES",
       "color": "BLACK",
-      "clean?": "true",
-      "timesUsed": "3"
+      "clean?": "true"
     },
     {
       "item": "Suit",
       "category": "DRESS",
       "color": "BLACK",
-      "clean?": "true",
-      "timesUsed": "10"
+      "clean?": "true"
     },
     {
       "item": "Dress-Shoes",
       "category": "SHOES",
       "color": "BLACK",
-      "clean?": "false",
-      "timesUsed": "10"
+      "clean?": "false"
     }
   ],
   "name": "my closet"
