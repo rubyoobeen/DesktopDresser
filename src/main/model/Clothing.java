@@ -6,10 +6,9 @@ import persistence.Writable;
 
 // Represents a clothing having an item, category, color, isClean, and timesUsed
 public class Clothing implements Writable {
-    private static final int LIMIT = 5;
-    private String item;
-    private ClothingCategory category;
-    private Color color;
+    private final String item;
+    private final ClothingCategory category;
+    private final Color color;
     private boolean isClean;
 
     // EFFECTS: constructs a clothing with given item, given category, given color, and set to clean
@@ -58,7 +57,7 @@ public class Clothing implements Writable {
 
     // EFFECTS: returns string representation of this clothing, throw exception otherwise
     public String toString() {
-        return "[" + category + "] " + color + " " + item + " | washed: " + isClean;
+        return "[" + category + "] " + color + " " + item + " | clean?: " + isClean;
     }
 
     @Override
