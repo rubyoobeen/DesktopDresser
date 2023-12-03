@@ -33,6 +33,7 @@ public class OutfitMenu extends JInternalFrame {
     public OutfitMenu(Closet loadCloset) {
         this.closet = loadCloset;
         this.columnNames = new String[]{"name", "TOP", "BOT", "OUTER", "DRESS", "ACC", "SHOES"};
+
         initialize();
     }
 
@@ -54,15 +55,15 @@ public class OutfitMenu extends JInternalFrame {
         List<String> categories = Arrays.asList("TOP", "BOT", "OUTER", "DRESS", "ACC", "SHOES");
         String[] columnNames = new String[categories.size() + 1];
         columnNames[0] = "Outfit Name";
+
         for (int i = 0; i < categories.size(); i++) {
             columnNames[i + 1] = categories.get(i);
         }
 
         tableModel = new DefaultTableModel(columnNames, 0);
+
         outfitTable = new JTable(tableModel);
-
         outfitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
         outfitTable.addMouseListener(new OutfitTableMouseAdapter(outfitTable));
 
         updateOutfitTable();
@@ -84,7 +85,7 @@ public class OutfitMenu extends JInternalFrame {
                 int columnIndex = getColumnIndex(category);
 
                 if (columnIndex != -1) {
-                    rowData[columnIndex] = clothing.getItem();
+                    rowData[columnIndex] = clothing.getItem() + " " + clothing.getColor();
                 }
             }
 
@@ -109,10 +110,8 @@ public class OutfitMenu extends JInternalFrame {
 
         JPanel nameRow = createNameRow();
         eastPanel.add(nameRow);
-        JPanel firstComboRow = createTopBotDress();
-        eastPanel.add(firstComboRow);
-        JPanel secondComboRow = createOuterAccShoes();
-        eastPanel.add(secondComboRow);
+        JPanel comboRow = createComboPanel();
+        eastPanel.add(comboRow);
         eastPanel.add(new JButton(new SaveExitAction()));
 
         return eastPanel;
@@ -134,49 +133,108 @@ public class OutfitMenu extends JInternalFrame {
     }
 
     // creates a panel for Top, Bot, Dress combo boxes to add and delete
-    private JPanel createTopBotDress() {
+    private JPanel createComboPanel() {
         JPanel comboPanel = new JPanel();
-        comboPanel.setPreferredSize(new Dimension(150, 300));
-        comboPanel.setLayout(new BoxLayout(comboPanel,BoxLayout.Y_AXIS));
+        comboPanel.setPreferredSize(new Dimension(150, 600));
+        comboPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        addLabelAndComboBox(comboPanel, "TOP", closet.getClothingsByCategory(ClothingCategory.TOP));
-        comboPanel.add(new JButton(new AddOrRemoveAction(topCombo)));
-        addLabelAndComboBox(comboPanel, "BOT", closet.getClothingsByCategory(ClothingCategory.BOT));
-        comboPanel.add(new JButton(new AddOrRemoveAction(botCombo)));
-        addLabelAndComboBox(comboPanel, "DRESS", closet.getClothingsByCategory(ClothingCategory.DRESS));
-        comboPanel.add(new JButton(new AddOrRemoveAction(dressCombo)));
+        initializeComboBoxes();
+
+        comboPanel.add(createTopPanel());
+        comboPanel.add(createBotPanel());
+        comboPanel.add(createDressPanel());
+        comboPanel.add(createOuterPanel());
+        comboPanel.add(createAccPanel());
+        comboPanel.add(createShoesPanel());
+        comboPanel.add(createBotPanel());
 
         return comboPanel;
     }
 
-    // creates a panel for Outer, Acc, Shoes combo boxes to add and delete
-    private JPanel createOuterAccShoes() {
-        JPanel comboPanel = new JPanel();
-        comboPanel.setPreferredSize(new Dimension(150, 300));
-        comboPanel.setLayout(new BoxLayout(comboPanel,BoxLayout.Y_AXIS));
-
-        addLabelAndComboBox(comboPanel, "OUTER", closet.getClothingsByCategory(ClothingCategory.OUTER));
-        comboPanel.add(new JButton(new AddOrRemoveAction(outerCombo)));
-        addLabelAndComboBox(comboPanel, "ACC", closet.getClothingsByCategory(ClothingCategory.ACC));
-        comboPanel.add(new JButton(new AddOrRemoveAction(accCombo)));
-        addLabelAndComboBox(comboPanel, "SHOES", closet.getClothingsByCategory(ClothingCategory.SHOES));
-        comboPanel.add(new JButton(new AddOrRemoveAction(shoesCombo)));
-
-        return comboPanel;
+    // initializes all category combo boxes
+    private void initializeComboBoxes() {
+        shoesCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.SHOES));
     }
 
-    // add label and combo box pair to panel
-    private void addLabelAndComboBox(JPanel panel, String labelText, List<Clothing> clothings) {
-        JPanel pairPanel = new JPanel();
-        pairPanel.setLayout(new GridLayout(1, 1));
+    // creates a panel for top label, combo box and add/delete button
+    private JPanel createTopPanel() {
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new GridLayout(2, 2));
 
-        JLabel label = createLabel(labelText);
-        JComboBox<Clothing> comboBox = createComboBox(clothings);
+        topPanel.add(createLabel("TOP"));
+        topCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.TOP));
+        topPanel.add(topCombo);
+        topPanel.add(new JButton(new AddAction(topCombo)));
+        topPanel.add(new JButton(new RemoveAction(topCombo)));
 
-        pairPanel.add(label);
-        pairPanel.add(comboBox);
+        return topPanel;
+    }
 
-        panel.add(pairPanel);
+    // creates a panel for bot label, combo box and add/delete button
+    private JPanel createBotPanel() {
+        JPanel botPanel = new JPanel();
+        botPanel.setLayout(new GridLayout(2, 2));
+
+        botPanel.add(createLabel("BOT"));
+        botCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.BOT));
+        botPanel.add(botCombo);
+        botPanel.add(new JButton(new AddAction(botCombo)));
+        botPanel.add(new JButton(new RemoveAction(botCombo)));
+        return botPanel;
+    }
+
+    // creates a panel for dress label, combo box and add/delete button
+    private JPanel createDressPanel() {
+        JPanel dressPanel = new JPanel();
+        dressPanel.setLayout(new GridLayout(2, 2));
+
+        dressPanel.add(createLabel("DRESS"));
+        dressCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.DRESS));
+        dressPanel.add(dressCombo);
+        dressPanel.add(new JButton(new AddAction(dressCombo)));
+        dressPanel.add(new JButton(new RemoveAction(dressCombo)));
+
+        return dressPanel;
+    }
+
+
+    // creates a panel for outer label, combo box and add/delete button
+    private JPanel createOuterPanel() {
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new GridLayout(2, 2));
+
+        outerPanel.add(createLabel("OUTER"));
+        outerCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.OUTER));
+        outerPanel.add(outerCombo);
+        outerPanel.add(new JButton(new AddAction(outerCombo)));
+        outerPanel.add(new JButton(new RemoveAction(outerCombo)));
+        return outerPanel;
+    }
+
+    // creates a panel for acc label, combo box and add/delete button
+    private JPanel createAccPanel() {
+        JPanel accPanel = new JPanel();
+        accPanel.setLayout(new GridLayout(2, 2));
+
+        accPanel.add(createLabel("OUTER"));
+        accCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.ACC));
+        accPanel.add(accCombo);
+        accPanel.add(new JButton(new AddAction(accCombo)));
+        accPanel.add(new JButton(new RemoveAction(accCombo)));
+        return accPanel;
+    }
+
+    // creates a panel for shoes label, combo box and add/delete button
+    private JPanel createShoesPanel() {
+        JPanel shoesPanel = new JPanel();
+        shoesPanel.setLayout(new GridLayout(2, 2));
+
+        shoesPanel.add(createLabel("SHOES"));
+        accCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.SHOES));
+        shoesPanel.add(shoesCombo);
+        shoesPanel.add(new JButton(new AddAction(shoesCombo)));
+        shoesPanel.add(new JButton(new RemoveAction(shoesCombo)));
+        return shoesPanel;
     }
 
     // makes outfit from closet and updates the outfit list
@@ -199,60 +257,67 @@ public class OutfitMenu extends JInternalFrame {
         }
     }
 
-    // adds or removes item from selected outfit from closet and updates the outfit table
-    private class AddOrRemoveAction extends AbstractAction {
+    // adds selected item to selected outfit
+    private class AddAction extends AbstractAction {
         private JComboBox comboBox;
 
-        AddOrRemoveAction(JComboBox selectedBox) {
-            super("Add/Remove");
-            this.comboBox = selectedBox;
+        AddAction(JComboBox selectedCombo) {
+            super("Add");
+            this.comboBox = selectedCombo;
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
             int selectedRow = outfitTable.getSelectedRow();
-            Clothing newClothing = (Clothing) comboBox.getSelectedItem();
+            Clothing newItem = (Clothing) comboBox.getSelectedItem();
             Outfit updateOutfit = getOutfitAtRow(selectedRow);
 
-            if (selectedRow != 1) {
-                existOutfit(updateOutfit, newClothing);
+            if (selectedRow != -1 && newItem != null) {
+                try {
+                    updateOutfit.addClothingToOutfit(newItem);
+                    JOptionPane.showMessageDialog(null, "Success: Item Added to Outfit");
+                } catch (ClothingException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Restriction",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Error: Outfit Not Selected",
+                JOptionPane.showMessageDialog(null, "Error: Outfit/Item Not Selected",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
             updateOutfitTable();
         }
+    }
 
-        // if clothing exits in outfit remove from outfit, add item to outfit otherwise
-        private void existOutfit(Outfit outfit, Clothing clothing) {
-            if (closet.getOutfitsFromCloset().contains(outfit)) {
-                if (outfit.getCollection().contains(clothing)) {
-                    removeClothingFromOutfit(outfit, clothing);
-                } else {
-                    addClothingToOutfit(outfit, clothing);
+    // removes selected item to selected outfit
+    private class RemoveAction extends AbstractAction {
+        private JComboBox comboBox;
+
+        RemoveAction(JComboBox selectedCombo) {
+            super("Remove");
+            this.comboBox = selectedCombo;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            int selectedRow = outfitTable.getSelectedRow();
+            Clothing removeItem = (Clothing) comboBox.getSelectedItem();
+            Outfit updateOutfit = getOutfitAtRow(selectedRow);
+
+            if (selectedRow != -1 && removeItem != null) {
+                try {
+                    updateOutfit.removeClothingFromOutfit(removeItem);
+                    JOptionPane.showMessageDialog(null, "Success: Item deleted from outfit");
+                } catch (ClothingException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Restriction",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: outfit/item not selected",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        }
 
-        // adds clothing to the outfit
-        private void addClothingToOutfit(Outfit outfit, Clothing clothing) {
-            try {
-                outfit.addClothingToOutfit(clothing);
-                JOptionPane.showMessageDialog(OutfitMenu.this, "Success: Item Added");
-            } catch (ClothingException ex) {
-                JOptionPane.showMessageDialog(null, "Error: Item Not Added");
-            }
-        }
-
-        // removes clothing from the outfit
-        private void removeClothingFromOutfit(Outfit outfit, Clothing clothing) {
-            try {
-                outfit.removeClothingFromOutfit(clothing);
-                JOptionPane.showMessageDialog(OutfitMenu.this, "Success: Item Added");
-            } catch (ClothingException ex) {
-                JOptionPane.showMessageDialog(null, "Error: Item Not Added");
-            }
+            updateOutfitTable();
         }
     }
 
@@ -325,7 +390,7 @@ public class OutfitMenu extends JInternalFrame {
     // creates text fields
     private JTextField createTextField() {
         JTextField textField = new JTextField();
-        textField.setPreferredSize(new Dimension(150, 25));
+        textField.setPreferredSize(new Dimension(200, 25));
         return textField;
     }
 

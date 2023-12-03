@@ -54,10 +54,6 @@ public class ClothingMenu extends JInternalFrame {
         clothingTable = new JTable(tableModel);
 
         clothingTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        TableColumnModel columnModel = clothingTable.getColumnModel();
-        columnModel.getColumn(3).setCellRenderer(new CheckBoxRenderer());
-
         clothingTable.addMouseListener(new ClothingTableMouseAdapter(clothingTable));
 
         updateClothingTable(closet);
@@ -337,41 +333,28 @@ public class ClothingMenu extends JInternalFrame {
         return new Clothing(itemName, category, color);
     }
 
-    // creates text fields
+    // creates text field
     private JTextField createTextField() {
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 25));
         return textField;
     }
 
-    // creates labels
+    // creates label
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
         label.setHorizontalAlignment(JLabel.RIGHT);
         return label;
     }
 
-    // creates combo boxes
+    // creates combo box for enums
     private <T> JComboBox<T> createComboBox(T[] enumConstants) {
         JComboBox<T> comboBox = new JComboBox<>(enumConstants);
         comboBox.setPreferredSize(new Dimension(150, 25));
         return comboBox;
     }
 
-    // custom cell renderer for rendering a checkbox without label text
-    private class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
-        CheckBoxRenderer() {
-            setHorizontalAlignment(SwingConstants.CENTER);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                       boolean hasFocus, int row, int column) {
-            setSelected((Boolean) value);
-            return this;
-        }
-    }
-
+    // mouse adapter for handling clicks on JTable
     private class ClothingTableMouseAdapter extends MouseAdapter {
         private JTable clothingTable;
 
