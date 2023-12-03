@@ -209,6 +209,12 @@
             "color": "MIX",
             "clean?": true,
             "category": "OUTER"
+        },
+        {
+            "item": "Shirt",
+            "color": "RED",
+            "clean?": true,
+            "category": "TOP"
         }
     ]
 }

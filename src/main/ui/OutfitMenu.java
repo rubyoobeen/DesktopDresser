@@ -2,6 +2,7 @@ package ui;
 
 import model.*;
 import model.exception.ClothingException;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.List;
 
 // Represents application's main menu window frame
@@ -40,13 +42,12 @@ public class OutfitMenu extends JInternalFrame {
         createOutfitTable();
         add(new JScrollPane(outfitTable), BorderLayout.CENTER);
 
-        createWestPanel();
-        add(createWestPanel(), BorderLayout.WEST);
+        add(createSouthPanel(), BorderLayout.SOUTH);
     }
 
     // creates a main outfit table
     private void createOutfitTable() {
-        String[] columnNames = {"Name"};
+        String[] columnNames = {"Name", "Collection"};
         tableModel = new DefaultTableModel(columnNames, 0);
         outfitTable = new JTable(tableModel);
 
@@ -61,25 +62,27 @@ public class OutfitMenu extends JInternalFrame {
     private void updateOutfitTable(Closet closet) {
         List<Outfit> outfits = closet.getOutfitsFromCloset();
 
+        tableModel.setRowCount(0);
+
         for (Outfit outfit : outfits) {
-            Object[] rowData = {outfit.getName()};
+            Object[] rowData = {outfit.getName(), outfit.getCollection()};
             tableModel.addRow(rowData);
         }
     }
 
-    // create panel for WEST of frame
-    private JPanel createWestPanel() {
-        JPanel westPanel = new JPanel();
-        westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.Y_AXIS));
+    // create panel for SOUTH of frame
+    private JPanel createSouthPanel() {
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
 
         JPanel nameRow = createNameRow();
-        westPanel.add(nameRow);
+        southPanel.add(nameRow);
         JPanel comboRow = createComboBoxRow();
-        westPanel.add(comboRow);
-        JPanel makeOutfitRow = createMakeOutfitRow();
-        westPanel.add(makeOutfitRow);
+        southPanel.add(comboRow);
+        JPanel buttonRow = createButtonRow();
+        southPanel.add(buttonRow);
 
-        return westPanel;
+        return southPanel;
     }
 
     // creates the name row with a text field
@@ -97,7 +100,7 @@ public class OutfitMenu extends JInternalFrame {
     // creates a row for a clothing list of categories of combo box
     private JPanel createComboBoxRow() {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
         topCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.TOP));
         botCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.BOT));
@@ -116,23 +119,25 @@ public class OutfitMenu extends JInternalFrame {
         return panel;
     }
 
-    // creates make outfit button row
-    private JPanel createMakeOutfitRow() {
+    // creates button row
+    private JPanel createButtonRow() {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JButton makeOutfitButton = new JButton(new MakeOutfitAction());
+        JButton deleteOutfitButton = new JButton(new DeleteOutfitAction());
+        JButton saveOutfitButton = new JButton(new SaveExitAction());
         panel.add(makeOutfitButton);
+        panel.add(deleteOutfitButton);
+        panel.add(saveOutfitButton);
 
         return panel;
     }
 
     // makes outfit from closet and updates the outfit list
     private class MakeOutfitAction extends AbstractAction {
-        private Closet updatedCloset;
 
         MakeOutfitAction() {
             super("Make Outfit");
-            this.updatedCloset = closet;
         }
 
         @Override
@@ -145,10 +150,57 @@ public class OutfitMenu extends JInternalFrame {
                 newOutfit.addClothingToOutfit((Clothing) outerCombo.getSelectedItem());
                 newOutfit.addClothingToOutfit((Clothing) accCombo.getSelectedItem());
                 newOutfit.addClothingToOutfit((Clothing) shoesCombo.getSelectedItem());
+                closet.addOutfitToCloset(newOutfit);
             } catch (ClothingException ex) {
                 JOptionPane.showMessageDialog(OutfitMenu.this, "Error: Outfit Not Added",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+            updateOutfitTable(closet);
+        }
+    }
+
+    // deletes outfit from closet and updates the outfit list
+    private class DeleteOutfitAction extends AbstractAction {
+
+        DeleteOutfitAction() {
+            super("Delete");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            String outfitNameToDelete = textField.getText();
+            Outfit outfitToDelete = new Outfit(outfitNameToDelete);
+
+            try {
+                closet.removeOutfitFromCloset(outfitToDelete);
+                updateOutfitTable(closet);
+            } catch (ClothingException ex) {
+                JOptionPane.showMessageDialog(null,"Error: Outfit Not Found",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    // saves outfit to closet and close the frame
+    private class SaveExitAction extends AbstractAction {
+
+        SaveExitAction() {
+            super("Save/Exit");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
+            try {
+                jsonWriter.open();
+                jsonWriter.write(closet);
+                jsonWriter.close();
+                JOptionPane.showMessageDialog(null,"Closet Saved to: " + JSON_STORE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Failed Saving to " + JSON_STORE,
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            OutfitMenu.this.dispose();
         }
     }
 

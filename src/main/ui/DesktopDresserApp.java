@@ -73,11 +73,9 @@ public class DesktopDresserApp extends JFrame {
 
     // loads closet from JSON_STORE and initialize main menu
     private class LoadClosetAction extends AbstractAction {
-        private Closet newCloset;
 
         LoadClosetAction() {
             super("Load Closet");
-            this.newCloset = null;
         }
 
         @Override
@@ -88,8 +86,8 @@ public class DesktopDresserApp extends JFrame {
 
                 if (loadedCLoset != null) {
                     setupMenu.setVisible(false);
-                    newCloset = loadedCLoset;
-                    initialMainMenu(newCloset);
+                    mainCloset = loadedCLoset;
+                    initialMainMenu();
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Failed to load closet from file " + JSON_STORE,
@@ -105,24 +103,24 @@ public class DesktopDresserApp extends JFrame {
 
     // makes new closet model
     private class NewClosetAction extends AbstractAction {
-        private Closet closet;
 
         NewClosetAction() {
             super("New Closet");
-            this.closet = null;
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            String newClosetName = JOptionPane.showInputDialog(this, "Enter Name of New Closet:");
+            String newClosetName = JOptionPane.showInputDialog("Enter Name:");
 
             if (newClosetName != null && !newClosetName.trim().isEmpty() && !newClosetName.equals(" ")) {
-                Closet newCloset = new Closet(newClosetName);
+                mainCloset = new Closet(newClosetName);
 
                 if (setupMenu.isVisible()) {
                     setupMenu.setVisible(false);
                 }
-                initialMainMenu(newCloset);
+
+                initialMainMenu();
+
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid name. Please enter valid name.");
             }
@@ -131,18 +129,16 @@ public class DesktopDresserApp extends JFrame {
 
     // creates main menu
     private JPanel createMainMenu() {
-        JPanel mainMenuPanel = new JPanel(new GridLayout(4, 1));
+        JPanel mainMenuPanel = new JPanel(new GridLayout(3, 1));
         mainMenuPanel.add(new JButton(new ClothingAction()));
         mainMenuPanel.add(new JButton(new OutfitAction()));
-        mainMenuPanel.add(new JButton(new SaveAction()));
         mainMenuPanel.add(new JButton(new ExitAction()));
 
         return mainMenuPanel;
     }
 
     // initialize main menu
-    private void initialMainMenu(Closet closet) {
-        mainCloset = closet;
+    private void initialMainMenu() {
         mainMenu = new JInternalFrame("MAIN");
         mainMenu.setSize(150, 300);
         mainMenu.setLocation(0, 250);
@@ -157,16 +153,14 @@ public class DesktopDresserApp extends JFrame {
 
     // opens a new window of clothing menu
     private class ClothingAction extends AbstractAction {
-        private Closet newCloset;
 
         ClothingAction() {
             super("Clothings");
-            this.newCloset = mainCloset;
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            ClothingMenu clothingMenu = new ClothingMenu(newCloset);
+            ClothingMenu clothingMenu = new ClothingMenu(mainCloset);
             clothingMenu.setVisible(true);
             desktop.add(clothingMenu);
         }
@@ -174,36 +168,16 @@ public class DesktopDresserApp extends JFrame {
 
     // opens a new window of outfit menu
     private class OutfitAction extends AbstractAction {
-        private Closet newCloset;
 
         OutfitAction() {
             super("View Outfits");
-            this.newCloset = mainCloset;
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            OutfitMenu outfitMenu = new OutfitMenu(newCloset);
+            OutfitMenu outfitMenu = new OutfitMenu(mainCloset);
             outfitMenu.setVisible(true);
             desktop.add(outfitMenu);
-        }
-    }
-
-    // saves closet to file JSON_STORE
-    private class SaveAction extends AbstractAction {
-        private Closet newCloset;
-
-        SaveAction() {
-            super("Save Closet");
-            this.newCloset = mainCloset;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
-            jsonWriter.write(newCloset);
-            JOptionPane.showMessageDialog(null, "Closet saved successfully!",
-                    "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

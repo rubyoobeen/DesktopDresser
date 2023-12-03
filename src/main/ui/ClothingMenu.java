@@ -65,6 +65,8 @@ public class ClothingMenu extends JInternalFrame {
     private void updateClothingTable(Closet closet) {
         List<Clothing> closetItems = closet.getClothingsFromCloset();
 
+        tableModel.setRowCount(0);
+
         for (Clothing clothing : closetItems) {
             Object[] rowData = {clothing.getItem(), clothing.getCategory(), clothing.getColor(),
                     clothing.isClean()};
@@ -88,7 +90,7 @@ public class ClothingMenu extends JInternalFrame {
     // creates first row of the south panel
     private JPanel createFirstRowPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         textField = createTextField();
         categoryComboBox = createComboBox(ClothingCategory.values());
@@ -107,7 +109,7 @@ public class ClothingMenu extends JInternalFrame {
     // creates second row of the south panel
     private JPanel createSecondRowPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         panel.add(new JButton(new AddClothingAction()));
         panel.add(new JButton(new DeleteClothingAction()));
@@ -118,11 +120,9 @@ public class ClothingMenu extends JInternalFrame {
 
     // adds new clothing to closet and updates the clothing list
     private class AddClothingAction extends AbstractAction {
-        private Closet updatedCloset;
 
         AddClothingAction() {
             super("Add");
-            this.updatedCloset = closet;
         }
 
         @Override
@@ -133,9 +133,9 @@ public class ClothingMenu extends JInternalFrame {
                 Color selectedColor = (Color) colorComboBox.getSelectedItem();
 
                 Clothing newClothing = new Clothing(itemName, selectedCategory, selectedColor);
-                updatedCloset.addClothingToCloset(newClothing);
+                closet.addClothingToCloset(newClothing);
 
-                updateClothingTable(updatedCloset);
+                updateClothingTable(closet);
 
                 JOptionPane.showMessageDialog(ClothingMenu.this, "Success: Item Added");
             } catch (ClothingException ex) {
@@ -147,11 +147,9 @@ public class ClothingMenu extends JInternalFrame {
 
     // deletes selected clothing item from the table
     private class DeleteClothingAction extends AbstractAction {
-        private Closet updatedCloset;
 
         DeleteClothingAction() {
             super("Delete");
-            this.updatedCloset = closet;
         }
 
         @Override
@@ -162,8 +160,8 @@ public class ClothingMenu extends JInternalFrame {
                 Clothing selectedClothing = getClothingAtRow(selectedIndex);
 
                 try {
-                    updatedCloset.removeClothingFromCloset(selectedClothing);
-                    updateClothingTable(updatedCloset);
+                    closet.removeClothingFromCloset(selectedClothing);
+                    updateClothingTable(closet);
                     JOptionPane.showMessageDialog(ClothingMenu.this, "Success: Item Deleted");
                 } catch (ClothingException ex) {
                     JOptionPane.showMessageDialog(ClothingMenu.this, "Error: Item Not Deleted",
@@ -177,25 +175,23 @@ public class ClothingMenu extends JInternalFrame {
     }
 
     private class SaveExitAction extends AbstractAction {
-        private Closet newCloset;
 
         SaveExitAction() {
             super("Exit/Save");
-            this.newCloset = closet;
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            saveClosetToJson();
-            closeWindow();
-        }
-
-        private void saveClosetToJson() {
             JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
-            jsonWriter.write(newCloset);
-        }
-
-        private void closeWindow() {
+            try {
+                jsonWriter.open();
+                jsonWriter.write(closet);
+                jsonWriter.close();
+                JOptionPane.showMessageDialog(null,"Closet Saved to: " + JSON_STORE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Failed Saving to " + JSON_STORE,
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
             ClothingMenu.this.dispose();
         }
     }
