@@ -158,20 +158,25 @@ public class ClothingMenu extends JInternalFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            try {
-                String itemName = textField.getText();
-                ClothingCategory selectedCategory = (ClothingCategory) categoryCombo.getSelectedItem();
-                Color selectedColor = (Color) colorCombo.getSelectedItem();
+            String itemName = textField.getText();
+            ClothingCategory selectedCategory = (ClothingCategory) categoryCombo.getSelectedItem();
+            Color selectedColor = (Color) colorCombo.getSelectedItem();
 
-                Clothing newClothing = new Clothing(itemName, selectedCategory, selectedColor);
-                closet.addClothingToCloset(newClothing);
+            if (itemName != null && selectedCategory != null && selectedCategory != null) {
+                try {
+                    Clothing newClothing = new Clothing(itemName, selectedCategory, selectedColor);
+                    closet.addClothingToCloset(newClothing);
 
-                updateClothingTable(closet);
+                    updateClothingTable(closet);
 
-                JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item added",
-                        "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
-            } catch (ClothingException ex) {
-                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: item not added",
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item added",
+                            "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } catch (ClothingException ex) {
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Error: item not added",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: requirement not met",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -281,6 +286,7 @@ public class ClothingMenu extends JInternalFrame {
 
                 try {
                     selectedClothing.setClean();
+                    closet.getClothingsFromCloset().set(selectedRow, selectedClothing);
                     updateClothingTable(closet);
                     JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item is clean");
                 } catch (ClothingException ex) {
@@ -310,6 +316,7 @@ public class ClothingMenu extends JInternalFrame {
 
                 try {
                     selectedClothing.setDirty();
+                    closet.getClothingsFromCloset().set(selectedRow, selectedClothing);
                     updateClothingTable(closet);
                     JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item is dirty");
                 } catch (ClothingException ex) {

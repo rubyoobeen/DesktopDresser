@@ -91,13 +91,13 @@ public class DesktopDresserApp extends JFrame {
                     mainCloset = loadedCLoset;
                     initialMainMenu();
                 } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Failed to load closet from file " + JSON_STORE,
+                    JOptionPane.showMessageDialog(DesktopDresserApp.this,
+                            "Error: no closet to read from " + JSON_STORE,
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (IOException | ClothingException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Cannot load closet from file " + JSON_STORE,
+                JOptionPane.showMessageDialog(DesktopDresserApp.this,
+                        "Error: failed to read from " + JSON_STORE,
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }

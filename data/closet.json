@@ -1,232 +1,218 @@
 {
-    "name": "My Closet",
-    "outfits": [
+  "name": "My Closet",
+  "outfits": [
+    {
+      "name": "Casual",
+      "collection": [
         {
-            "name": "Casual",
-            "collection": [
-                {
-                    "item": "T Shirt",
-                    "color": "WHITE",
-                    "category": "TOP"
-                },
-                {
-                    "item": "Jeans",
-                    "color": "BLUE",
-                    "category": "BOT"
-                },
-                {
-                    "item": "Sneakers",
-                    "color": "MIX",
-                    "category": "SHOES"
-                }
-            ]
+          "item": "T Shirt",
+          "color": "WHITE",
+          "category": "TOP"
         },
         {
-            "name": "Prom",
-            "collection": [
-                {
-                    "item": "Prom Dress",
-                    "color": "PINK",
-                    "category": "DRESS"
-                },
-                {
-                    "item": "Shawl",
-                    "color": "MIX",
-                    "category": "OUTER"
-                },
-                {
-                    "item": "Necklace",
-                    "color": "PINK",
-                    "category": "ACC"
-                },
-                {
-                    "item": "Heels",
-                    "color": "RED",
-                    "category": "SHOES"
-                }
-            ]
+          "item": "Jeans",
+          "color": "BLUE",
+          "category": "BOT"
         },
         {
-            "name": "School",
-            "collection": []
-        },
-        {
-            "name": "Party",
-            "collection": [{
-                "item": "Pajamas",
-                "color": "MIX",
-                "category": "DRESS"
-            }]
+          "item": "Sneakers",
+          "color": "MIX",
+          "category": "SHOES"
         }
-    ],
-    "clothing items": [
+      ]
+    },
+    {
+      "name": "Prom",
+      "collection": [
         {
-            "item": "Jeans",
-            "color": "BLACK",
-            "clean?": true,
-            "category": "BOT"
+          "item": "Prom Dress",
+          "color": "PINK",
+          "category": "DRESS"
         },
         {
-            "item": "Jeans",
-            "color": "BLUE",
-            "clean?": true,
-            "category": "BOT"
+          "item": "Shawl",
+          "color": "MIX",
+          "category": "OUTER"
         },
         {
-            "item": "Prom Dress",
-            "color": "PINK",
-            "clean?": false,
-            "category": "DRESS"
+          "item": "Necklace",
+          "color": "PINK",
+          "category": "ACC"
         },
         {
-            "item": "Rain Coat",
-            "color": "YELLOW",
-            "clean?": true,
-            "category": "OUTER"
-        },
-        {
-            "item": "T Shirt",
-            "color": "WHITE",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "T Shirt",
-            "color": "PURPLE",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "Sneakers",
-            "color": "MIX",
-            "clean?": true,
-            "category": "SHOES"
-        },
-        {
-            "item": "Dress Shoes",
-            "color": "BLACK",
-            "clean?": true,
-            "category": "SHOES"
-        },
-        {
-            "item": "Earrings",
-            "color": "ORANGE",
-            "clean?": false,
-            "category": "ACC"
-        },
-        {
-            "item": "Suit",
-            "color": "BLACK",
-            "clean?": true,
-            "category": "DRESS"
-        },
-        {
-            "item": "Jacket",
-            "color": "RED",
-            "clean?": true,
-            "category": "OUTER"
-        },
-        {
-            "item": "T Shirt",
-            "color": "GREEN",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "Sweater",
-            "color": "WHITE",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "Sweater",
-            "color": "BLUE",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "Pajamas",
-            "color": "MIX",
-            "clean?": true,
-            "category": "DRESS"
-        },
-        {
-            "item": "Boots",
-            "color": "ORANGE",
-            "clean?": false,
-            "category": "SHOES"
-        },
-        {
-            "item": "Tank Top",
-            "color": "BLACK",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "Mini Skirt",
-            "color": "PINK",
-            "clean?": true,
-            "category": "BOT"
-        },
-        {
-            "item": "Long Skirt",
-            "color": "BLACK",
-            "clean?": true,
-            "category": "BOT"
-        },
-        {
-            "item": "Heels",
-            "color": "RED",
-            "clean?": true,
-            "category": "SHOES"
-        },
-        {
-            "item": "Blouse",
-            "color": "BLUE",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "Dress Shirt",
-            "color": "WHITE",
-            "clean?": false,
-            "category": "TOP"
-        },
-        {
-            "item": "Bracelet",
-            "color": "YELLOW",
-            "clean?": true,
-            "category": "ACC"
-        },
-        {
-            "item": "Belt",
-            "color": "BLACK",
-            "clean?": true,
-            "category": "ACC"
-        },
-        {
-            "item": "Necklace",
-            "color": "PINK",
-            "clean?": true,
-            "category": "ACC"
-        },
-        {
-            "item": "Shawl",
-            "color": "MIX",
-            "clean?": true,
-            "category": "OUTER"
-        },
-        {
-            "item": "T Shirt",
-            "color": "RED",
-            "clean?": true,
-            "category": "TOP"
-        },
-        {
-            "item": "Sweat Pants",
-            "color": "BLACK",
-            "clean?": true,
-            "category": "BOT"
+          "item": "Heels",
+          "color": "RED",
+          "category": "SHOES"
         }
-    ]
+      ]
+    },
+    {
+      "name": "School",
+      "collection": []
+    }
+  ],
+  "clothing items": [
+    {
+      "item": "Jeans",
+      "color": "BLACK",
+      "clean?": true,
+      "category": "BOT"
+    },
+    {
+      "item": "Jeans",
+      "color": "BLUE",
+      "clean?": true,
+      "category": "BOT"
+    },
+    {
+      "item": "Prom Dress",
+      "color": "PINK",
+      "clean?": true,
+      "category": "DRESS"
+    },
+    {
+      "item": "Rain Coat",
+      "color": "YELLOW",
+      "clean?": true,
+      "category": "OUTER"
+    },
+    {
+      "item": "T Shirt",
+      "color": "WHITE",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "T Shirt",
+      "color": "PURPLE",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "Sneakers",
+      "color": "MIX",
+      "clean?": true,
+      "category": "SHOES"
+    },
+    {
+      "item": "Dress Shoes",
+      "color": "BLACK",
+      "clean?": true,
+      "category": "SHOES"
+    },
+    {
+      "item": "Earrings",
+      "color": "ORANGE",
+      "clean?": true,
+      "category": "ACC"
+    },
+    {
+      "item": "Suit",
+      "color": "BLACK",
+      "clean?": true,
+      "category": "DRESS"
+    },
+    {
+      "item": "Jacket",
+      "color": "RED",
+      "clean?": true,
+      "category": "OUTER"
+    },
+    {
+      "item": "T Shirt",
+      "color": "GREEN",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "Sweater",
+      "color": "WHITE",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "Sweater",
+      "color": "BLUE",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "Pajamas",
+      "color": "MIX",
+      "clean?": true,
+      "category": "DRESS"
+    },
+    {
+      "item": "Boots",
+      "color": "ORANGE",
+      "clean?": true,
+      "category": "SHOES"
+    },
+    {
+      "item": "Tank Top",
+      "color": "BLACK",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "Mini Skirt",
+      "color": "PINK",
+      "clean?": true,
+      "category": "BOT"
+    },
+    {
+      "item": "Long Skirt",
+      "color": "BLACK",
+      "clean?": true,
+      "category": "BOT"
+    },
+    {
+      "item": "Heels",
+      "color": "RED",
+      "clean?": true,
+      "category": "SHOES"
+    },
+    {
+      "item": "Blouse",
+      "color": "BLUE",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "Dress Shirt",
+      "color": "WHITE",
+      "clean?": true,
+      "category": "TOP"
+    },
+    {
+      "item": "Bracelet",
+      "color": "YELLOW",
+      "clean?": true,
+      "category": "ACC"
+    },
+    {
+      "item": "Belt",
+      "color": "BLACK",
+      "clean?": true,
+      "category": "ACC"
+    },
+    {
+      "item": "Necklace",
+      "color": "PINK",
+      "clean?": true,
+      "category": "ACC"
+    },
+    {
+      "item": "Shawl",
+      "color": "MIX",
+      "clean?": true,
+      "category": "OUTER"
+    },
+    {
+      "item": "T Shirt",
+      "color": "RED",
+      "clean?": true,
+      "category": "TOP"
+    }
+  ]
 }

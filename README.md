@@ -35,7 +35,8 @@ and show your sense of fashion!
 > Phase 0-1:
 > - I want to be able to select a clothing item from my closet.
 > - I want to be able to view a list of clothing in 'top' category.
-> - I want to be able to add a clothing item to closet and specify the name, category, color, and if it's clean or dirty.
+> - I want to be able to add a clothing item to closet and specify the name, category, color
+> , and if it's clean or dirty.
 > - I want to be able to sort a clothing item to outfits.
 > 
 > Phase 2:
@@ -47,9 +48,10 @@ and show your sense of fashion!
 > - As a user, I want to be able to load previous files and save current file.
 >
 > Phase 4 Task 3:
-> - As a user, I want to be able to add multiple clothing items to the closet.
-> - As a user, I want to be able to load previous files and save current file.
->
+> - The refactoring would involve creating more generic and reusable methods or perhaps introducing
+> helper classes to encapsulate common functionalities - promoting cleaner and more efficient codebase.
+> If I had more time, I could develop a central hub class for common operations related to clothing items,
+> including adding, removing, marking and other manipulation.
 
 
 ### Instructions for Grader
