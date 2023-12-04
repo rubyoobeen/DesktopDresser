@@ -66,7 +66,8 @@ public class DesktopDresserApp extends JFrame {
 
     // creates setup buttons on button panel
     private JPanel createSetupButton() {
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
+        buttonPanel.setPreferredSize(new Dimension(100, 50));
         buttonPanel.add(new JButton(new LoadClosetAction()));
         buttonPanel.add(new JButton(new NewClosetAction()));
         return buttonPanel;
@@ -166,7 +167,7 @@ public class DesktopDresserApp extends JFrame {
         public void actionPerformed(ActionEvent evt) {
             ClothingMenu clothingMenu = new ClothingMenu(DesktopDresserApp.this, mainCloset);
             clothingMenu.setVisible(true);
-            desktop.add((ClothingMenu) clothingMenu);
+            desktop.add(clothingMenu);
         }
     }
 
@@ -195,6 +196,8 @@ public class DesktopDresserApp extends JFrame {
         @Override
         public void actionPerformed(ActionEvent evt) {
             EventLog.getInstance().clear();
+            JOptionPane.showMessageDialog(DesktopDresserApp.this, "Event logs cleared",
+                    "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -211,8 +214,8 @@ public class DesktopDresserApp extends JFrame {
                 LogPrinter lp = new FilePrinter();
                 lp.printLog(EventLog.getInstance());
             } catch (LogException ex) {
-                JOptionPane.showMessageDialog(null, "Error: Cannot Print to File",
-                        "SYSTEM ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error: cannot print to file",
+                        "FILE ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -232,8 +235,8 @@ public class DesktopDresserApp extends JFrame {
                 desktop.add((ScreenPrinter) lp);
                 lp.printLog(EventLog.getInstance());
             } catch (LogException ex) {
-                JOptionPane.showMessageDialog(null, "Error: Cannot Print to Screen",
-                        "SYSTEM ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(DesktopDresserApp.this,
+                        "Error: cannot print to screen", "PRINT ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -247,7 +250,7 @@ public class DesktopDresserApp extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            int result = JOptionPane.showConfirmDialog(null,
+            int result = JOptionPane.showConfirmDialog(DesktopDresserApp.this,
                     "Are you sure you want to exit application?",
                     "EXIT",
                     JOptionPane.YES_NO_OPTION);

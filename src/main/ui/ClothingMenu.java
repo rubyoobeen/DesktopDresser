@@ -53,7 +53,7 @@ public class ClothingMenu extends JInternalFrame {
 
     // creates a main clothing table
     private void createClothingTable() {
-        String[] columnNames = {"Item", "Category", "Color", "Clean?"};
+        String[] columnNames = {"ITEM NAME", "CATEGORY", "COLOR", "CLEAN?"};
         tableModel = new DefaultTableModel(columnNames, 0);
         clothingTable = new JTable(tableModel);
 
@@ -220,10 +220,10 @@ public class ClothingMenu extends JInternalFrame {
                 jsonWriter.open();
                 jsonWriter.write(closet);
                 jsonWriter.close();
-                JOptionPane.showMessageDialog(null,"Success: closet saved to: " + JSON_STORE,
+                JOptionPane.showMessageDialog(ClothingMenu.this,"Success: closet saved to: " + JSON_STORE,
                         "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error: failed saving to " + JSON_STORE,
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: failed saving to " + JSON_STORE,
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             ClothingMenu.this.dispose();
@@ -254,7 +254,7 @@ public class ClothingMenu extends JInternalFrame {
                         viewList = closet.getClothingByColor(selectedColor);
                         updateDifferentTable(viewList);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Error: error occurred",
+                        JOptionPane.showMessageDialog(ClothingMenu.this, "Error: error occurred",
                                 "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -277,7 +277,7 @@ public class ClothingMenu extends JInternalFrame {
             int selectedRow = clothingTable.getSelectedRow();
 
             if (selectedRow != -1) {
-                Clothing selectedClothing = getClothingAtRow(selectedRow);
+                Clothing selectedClothing = closet.getClothingsFromCloset().get(selectedRow);
 
                 try {
                     selectedClothing.setClean();
@@ -306,7 +306,7 @@ public class ClothingMenu extends JInternalFrame {
             int selectedRow = clothingTable.getSelectedRow();
 
             if (selectedRow != -1) {
-                Clothing selectedClothing = getClothingAtRow(selectedRow);
+                Clothing selectedClothing = closet.getClothingsFromCloset().get(selectedRow);
 
                 try {
                     selectedClothing.setDirty();

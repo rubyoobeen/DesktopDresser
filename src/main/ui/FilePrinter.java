@@ -19,7 +19,7 @@ public class FilePrinter implements LogPrinter {
     //      for each run of application, exception thrown otherwise
     public FilePrinter() throws LogException {
         try {
-            File logFile = new File(System.getProperty("user.dir") + SEP
+            File logFile = new File(System.getProperty("user.closet") + SEP
                     + "log" + SEP + "log_" + log_num + ".txt");
             fw = new FileWriter(logFile);
             log_num++;

@@ -57,7 +57,7 @@ public class OutfitMenu extends JInternalFrame {
     private void createOutfitTable() {
         List<String> categories = Arrays.asList("TOP", "BOT", "OUTER", "DRESS", "ACC", "SHOES");
         String[] columnNames = new String[categories.size() + 1];
-        columnNames[0] = "Outfit Name";
+        columnNames[0] = "OUTFIT NAME";
 
         for (int i = 0; i < categories.size(); i++) {
             columnNames[i + 1] = categories.get(i);
@@ -138,7 +138,7 @@ public class OutfitMenu extends JInternalFrame {
     // creates a panel for Top, Bot, Dress combo boxes to add and delete
     private JPanel createComboPanel() {
         JPanel comboPanel = new JPanel();
-        comboPanel.setPreferredSize(new Dimension(150, 450));
+        comboPanel.setPreferredSize(new Dimension(150, 400));
         comboPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         initializeComboBoxes();
@@ -256,7 +256,7 @@ public class OutfitMenu extends JInternalFrame {
                 Outfit newOutfit = new Outfit(textField.getText());
                 closet.addOutfitToCloset(newOutfit);
             } catch (ClothingException ex) {
-                JOptionPane.showMessageDialog(OutfitMenu.this, "Error: Outfit Not Added",
+                JOptionPane.showMessageDialog(OutfitMenu.this, "Error: outfit not added",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             updateOutfitTable();
@@ -281,13 +281,14 @@ public class OutfitMenu extends JInternalFrame {
             if (selectedRow != -1 && newItem != null) {
                 try {
                     updateOutfit.addClothingToOutfit(newItem);
-                    JOptionPane.showMessageDialog(null, "Success: Item Added to Outfit");
+                    JOptionPane.showMessageDialog(OutfitMenu.this, "Success: item added to outfit",
+                            "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } catch (ClothingException ex) {
-                    JOptionPane.showMessageDialog(null, "Error: Restriction",
+                    JOptionPane.showMessageDialog(OutfitMenu.this, "Error: restriction",
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Error: Outfit/Item Not Selected",
+                JOptionPane.showMessageDialog(OutfitMenu.this, "Error: outfit/item not selected",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -313,14 +314,15 @@ public class OutfitMenu extends JInternalFrame {
             if (selectedRow != -1 && removeItem != null) {
                 try {
                     updateOutfit.removeClothingFromOutfit(removeItem);
-                    JOptionPane.showMessageDialog(null, "Success: Item deleted from outfit");
+                    JOptionPane.showMessageDialog(OutfitMenu.this,
+                            "Success: item deleted from outfit");
                 } catch (ClothingException ex) {
-                    JOptionPane.showMessageDialog(null, "Error: Restriction",
+                    JOptionPane.showMessageDialog(OutfitMenu.this, "Error: restriction",
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Error: outfit/item not selected",
-                        "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(OutfitMenu.this,
+                        "Error: outfit/item not selected", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
             updateOutfitTable();
@@ -343,7 +345,7 @@ public class OutfitMenu extends JInternalFrame {
                 closet.removeOutfitFromCloset(outfitToDelete);
                 updateOutfitTable();
             } catch (ClothingException ex) {
-                JOptionPane.showMessageDialog(null,"Error: Outfit Not Found",
+                JOptionPane.showMessageDialog(OutfitMenu.this,"Error: outfit not found",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -363,9 +365,9 @@ public class OutfitMenu extends JInternalFrame {
                 jsonWriter.open();
                 jsonWriter.write(closet);
                 jsonWriter.close();
-                JOptionPane.showMessageDialog(null,"Closet Saved to: " + JSON_STORE);
+                JOptionPane.showMessageDialog(OutfitMenu.this,"Closet saved to: " + JSON_STORE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Failed Saving to " + JSON_STORE,
+                JOptionPane.showMessageDialog(OutfitMenu.this, "Failed saving to " + JSON_STORE,
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             OutfitMenu.this.dispose();
@@ -400,6 +402,7 @@ public class OutfitMenu extends JInternalFrame {
         return textField;
     }
 
+    // mouse adapter for handling clicks on JTable
     private class OutfitTableMouseAdapter extends MouseAdapter {
         private JTable outfitTable;
 

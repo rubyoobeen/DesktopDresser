@@ -75,7 +75,7 @@
         {
             "item": "Prom Dress",
             "color": "PINK",
-            "clean?": true,
+            "clean?": false,
             "category": "DRESS"
         },
         {
@@ -111,7 +111,7 @@
         {
             "item": "Earrings",
             "color": "ORANGE",
-            "clean?": true,
+            "clean?": false,
             "category": "ACC"
         },
         {
@@ -153,7 +153,7 @@
         {
             "item": "Boots",
             "color": "ORANGE",
-            "clean?": true,
+            "clean?": false,
             "category": "SHOES"
         },
         {
@@ -189,7 +189,7 @@
         {
             "item": "Dress Shirt",
             "color": "WHITE",
-            "clean?": true,
+            "clean?": false,
             "category": "TOP"
         },
         {
@@ -221,6 +221,12 @@
             "color": "RED",
             "clean?": true,
             "category": "TOP"
+        },
+        {
+            "item": "Sweat Pants",
+            "color": "BLACK",
+            "clean?": true,
+            "category": "BOT"
         }
     ]
 }
