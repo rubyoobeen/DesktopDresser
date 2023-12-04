@@ -36,14 +36,9 @@ public class FilePrinter implements LogPrinter {
                 fw.write("\n\n");
             }
             fw.flush();
+            fw.close();
         } catch (IOException e) {
             throw new LogException("Cannot write to file");
-        } finally {
-            try {
-                fw.close();
-            } catch (IOException ex) {
-                throw new LogException("Error closing file");
-            }
         }
     }
 }

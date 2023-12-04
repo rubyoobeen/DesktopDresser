@@ -26,20 +26,10 @@ public class Closet implements Writable {
         return name;
     }
 
-    public List<Clothing> getItems() {
-        return items;
-    }
-
-    public List<Outfit> getOutfits() {
-        return outfits;
-    }
-
-    // EFFECTS: returns clothing item from closet
     public List<Clothing> getClothingsFromCloset() {
         return items;
     }
 
-    // EFFECTS: returns outfit from closet
     public List<Outfit> getOutfitsFromCloset() {
         return outfits;
     }

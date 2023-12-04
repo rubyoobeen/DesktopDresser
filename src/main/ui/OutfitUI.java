@@ -166,13 +166,13 @@ public class OutfitUI {
 
     // EFFECTS: returns true if an outfit with the given name exists in the closet, false otherwise
     private boolean containsOutfit(String outfitName) {
-        return closet.getOutfits().stream().anyMatch(outfit -> outfit.getName().equalsIgnoreCase(outfitName));
+        return closet.getOutfitsFromCloset().stream().anyMatch(outfit -> outfit.getName().equalsIgnoreCase(outfitName));
     }
 
     // MODIFIES: this
     // EFFECTS: deletes an outfit from the closet
     private void deleteOutfit() {
-        if (!closet.getOutfits().isEmpty()) {
+        if (!closet.getOutfitsFromCloset().isEmpty()) {
             System.out.println("Enter Name of Outfit: ");
             String outfitName = input.nextLine();
 
@@ -195,7 +195,7 @@ public class OutfitUI {
 
     // EFFECTS: prints list of outfits in the closet and allows the user to view clothing items
     private void viewOutfit() {
-        List<Outfit> outfits = closet.getOutfits();
+        List<Outfit> outfits = closet.getOutfitsFromCloset();
 
         if (!outfits.isEmpty()) {
             System.out.println("All Outfits in Closet: ");

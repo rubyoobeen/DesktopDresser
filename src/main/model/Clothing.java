@@ -39,7 +39,7 @@ public class Clothing implements Writable {
     // EFFECTS: set isClean to dirty = false, throw exception otherwise
     public void setDirty() throws ClothingException {
         if (isClean) {
-            isClean = false;
+            this.isClean = false;
             EventLog.getInstance().logEvent(new Event("New item added " + this.toString()));
         } else {
             throw new ClothingException("item is already dirty");
@@ -50,7 +50,7 @@ public class Clothing implements Writable {
     // EFFECTS: set isClean to clean = true, throw exception otherwise
     public void setClean() throws ClothingException {
         if (!isClean) {
-            isClean = true;
+            this.isClean = true;
             EventLog.getInstance().logEvent(new Event("Item [" + this.toString() + "] is washed"));
         } else {
             throw new ClothingException("item is already clean");

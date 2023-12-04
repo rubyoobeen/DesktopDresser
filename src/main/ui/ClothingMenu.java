@@ -24,8 +24,8 @@ public class ClothingMenu extends JInternalFrame {
     private JTable clothingTable;
     private DefaultTableModel tableModel;
     private JTextField textField;
-    private JComboBox<Color> colorComboBox;
-    private JComboBox<ClothingCategory> categoryComboBox;
+    private JComboBox<Color> colorCombo;
+    private JComboBox<ClothingCategory> categoryCombo;
 
     // Constructor that takes a Closet object and initialize the frame to given parent frame
     public ClothingMenu(Component parent, Closet loadedCloset) {
@@ -106,15 +106,15 @@ public class ClothingMenu extends JInternalFrame {
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         textField = createTextField();
-        categoryComboBox = createComboBox(ClothingCategory.values());
-        colorComboBox = createComboBox(Color.values());
+        categoryCombo = createComboBox(ClothingCategory.values());
+        colorCombo = createComboBox(Color.values());
 
         panel.add(createLabel("Item:"));
         panel.add(textField);
         panel.add(createLabel("Category:"));
-        panel.add(categoryComboBox);
+        panel.add(categoryCombo);
         panel.add(createLabel("Color:"));
-        panel.add(colorComboBox);
+        panel.add(colorCombo);
 
         return panel;
     }
@@ -126,6 +126,7 @@ public class ClothingMenu extends JInternalFrame {
 
         panel.add(new JButton(new AddClothingAction()));
         panel.add(new JButton(new DeleteClothingAction()));
+        panel.add(new JButton(new View()));
         panel.add(new JButton(new SaveExitAction()));
 
         return panel;
@@ -136,13 +137,9 @@ public class ClothingMenu extends JInternalFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
 
-        panel.add(new JButton(new ViewAll()));
-        panel.add(new JButton(new ViewTop()));
-        panel.add(new JButton(new ViewBot()));
-        panel.add(new JButton(new ViewDress()));
-        panel.add(new JButton(new ViewOuter()));
-        panel.add(new JButton(new ViewAcc()));
-        panel.add(new JButton(new ViewShoes()));
+        panel.add(createLabel("Wash or mark Dirty:"));
+        panel.add(new JButton(new MarkClean()));
+        panel.add(new JButton(new MarkDirty()));
 
         return panel;
     }
@@ -163,17 +160,18 @@ public class ClothingMenu extends JInternalFrame {
         public void actionPerformed(ActionEvent evt) {
             try {
                 String itemName = textField.getText();
-                ClothingCategory selectedCategory = (ClothingCategory) categoryComboBox.getSelectedItem();
-                Color selectedColor = (Color) colorComboBox.getSelectedItem();
+                ClothingCategory selectedCategory = (ClothingCategory) categoryCombo.getSelectedItem();
+                Color selectedColor = (Color) colorCombo.getSelectedItem();
 
                 Clothing newClothing = new Clothing(itemName, selectedCategory, selectedColor);
                 closet.addClothingToCloset(newClothing);
 
                 updateClothingTable(closet);
 
-                JOptionPane.showMessageDialog(ClothingMenu.this, "Success: Item Added");
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item added",
+                        "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
             } catch (ClothingException ex) {
-                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: Item Not Added",
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: item not added",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -196,13 +194,14 @@ public class ClothingMenu extends JInternalFrame {
                 try {
                     closet.removeClothingFromCloset(selectedClothing);
                     updateClothingTable(closet);
-                    JOptionPane.showMessageDialog(ClothingMenu.this, "Success: Item Deleted");
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item deleted",
+                            "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } catch (ClothingException ex) {
-                    JOptionPane.showMessageDialog(ClothingMenu.this, "Error: Item Not Deleted",
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Error: item not deleted",
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: No Item Selected",
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: no item selected",
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -221,115 +220,106 @@ public class ClothingMenu extends JInternalFrame {
                 jsonWriter.open();
                 jsonWriter.write(closet);
                 jsonWriter.close();
-                JOptionPane.showMessageDialog(null,"Closet Saved to: " + JSON_STORE);
+                JOptionPane.showMessageDialog(null,"Success: closet saved to: " + JSON_STORE,
+                        "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Failed Saving to " + JSON_STORE,
+                JOptionPane.showMessageDialog(null, "Error: failed saving to " + JSON_STORE,
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             ClothingMenu.this.dispose();
         }
     }
 
-    // view all items in the list in added order
-    private class ViewAll extends AbstractAction {
+    // view items by type of given choice
+    private class View extends AbstractAction {
+        private List<Clothing> viewList;
 
-        ViewAll() {
-            super("ALL");
+        View() {
+            super("View");
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            updateClothingTable(closet);
+            ClothingCategory selectedCategory = (ClothingCategory) categoryCombo.getSelectedItem();
+            Color selectedColor = (Color) colorCombo.getSelectedItem();
+
+            if (!(selectedColor != null && selectedCategory != null)) {
+                if (selectedColor == null && selectedCategory == null) {
+                    updateClothingTable(closet);
+                } else {
+                    if (selectedColor == null && selectedCategory != null) {
+                        viewList = closet.getClothingsByCategory(selectedCategory);
+                        updateDifferentTable(viewList);
+                    } else if (selectedColor != null && selectedCategory == null) {
+                        viewList = closet.getClothingByColor(selectedColor);
+                        updateDifferentTable(viewList);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error: error occurred",
+                                "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: select one type to view",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
-    // makes new list of clothing items in TOP category and display on table
-    private class ViewTop extends AbstractAction {
-        private List<Clothing> topList;
+    // mark item as clean
+    private class MarkClean extends AbstractAction {
 
-        ViewTop() {
-            super("TOP");
+        MarkClean() {
+            super("Wash");
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            topList = closet.getClothingsByCategory(ClothingCategory.TOP);
-            updateDifferentTable(topList);
+            int selectedRow = clothingTable.getSelectedRow();
+
+            if (selectedRow != -1) {
+                Clothing selectedClothing = getClothingAtRow(selectedRow);
+
+                try {
+                    selectedClothing.setClean();
+                    updateClothingTable(closet);
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item is clean");
+                } catch (ClothingException ex) {
+                    JOptionPane.showMessageDialog(ClothingMenu.this,
+                            "Error: item is already clean", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: no item selected",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
-    // makes new list of clothing items in BOT category and display on table
-    private class ViewBot extends AbstractAction {
-        private List<Clothing> botList;
+    // mark item as dirty
+    private class MarkDirty extends AbstractAction {
 
-        ViewBot() {
-            super("BOT");
+        MarkDirty() {
+            super("Dirty");
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            botList = closet.getClothingsByCategory(ClothingCategory.BOT);
-            updateDifferentTable(botList);
-        }
-    }
+            int selectedRow = clothingTable.getSelectedRow();
 
-    // makes new list of clothing items in DRESS category and display on table
-    private class ViewDress extends AbstractAction {
-        private List<Clothing> dressList;
+            if (selectedRow != -1) {
+                Clothing selectedClothing = getClothingAtRow(selectedRow);
 
-        ViewDress() {
-            super("DRESS");
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            dressList = closet.getClothingsByCategory(ClothingCategory.DRESS);
-            updateDifferentTable(dressList);
-        }
-    }
-
-    // makes new list of clothing items in OUTER category and display on table
-    private class ViewOuter extends AbstractAction {
-        private List<Clothing> outerList;
-
-        ViewOuter() {
-            super("OUTER");
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            outerList = closet.getClothingsByCategory(ClothingCategory.OUTER);
-            updateDifferentTable(outerList);
-        }
-    }
-
-    // makes new list of clothing items in ACC category and display on table
-    private class ViewAcc extends AbstractAction {
-        private List<Clothing> accList;
-
-        ViewAcc() {
-            super("ACC");
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            accList = closet.getClothingsByCategory(ClothingCategory.ACC);
-            updateDifferentTable(accList);
-        }
-    }
-
-    // makes new list of clothing items in SHOES category and display on table
-    private class ViewShoes extends AbstractAction {
-        private List<Clothing> shoesList;
-
-        ViewShoes() {
-            super("SHOES");
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            shoesList = closet.getClothingsByCategory(ClothingCategory.SHOES);
-            updateDifferentTable(shoesList);
+                try {
+                    selectedClothing.setDirty();
+                    updateClothingTable(closet);
+                    JOptionPane.showMessageDialog(ClothingMenu.this, "Success: item is dirty");
+                } catch (ClothingException ex) {
+                    JOptionPane.showMessageDialog(ClothingMenu.this,
+                            "Error: item is already dirty", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(ClothingMenu.this, "Error: no item selected",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

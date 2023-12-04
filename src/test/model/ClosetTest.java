@@ -4,8 +4,6 @@ import model.exception.ClothingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ClosetTest {
@@ -19,8 +17,8 @@ public class ClosetTest {
     @Test
     void testConstructor() {
         assertEquals("test closet", testCloset.getName());
-        assertTrue(testCloset.getItems().isEmpty());
-        assertTrue(testCloset.getOutfits().isEmpty());
+        assertTrue(testCloset.getClothingsFromCloset().isEmpty());
+        assertTrue(testCloset.getOutfitsFromCloset().isEmpty());
     }
 
     @Test
@@ -33,7 +31,7 @@ public class ClosetTest {
         try {
             testCloset.addClothingToCloset(testClothing);
             testCloset.addClothingToCloset(testSameClothing);
-            assertEquals(1, testCloset.getItems().size());
+            assertEquals(1, testCloset.getClothingsFromCloset().size());
             fail("expected ClothingException");
         } catch (ClothingException ex) {
             // expected ClothingException
@@ -42,7 +40,7 @@ public class ClosetTest {
         // add different clothing item to closet items
         try {
             testCloset.addClothingToCloset(testDifferentClothing);
-            assertEquals(2, testCloset.getItems().size());
+            assertEquals(2, testCloset.getClothingsFromCloset().size());
         } catch (ClothingException ex) {
             fail("unexpected ClothingException");
         }
@@ -55,9 +53,9 @@ public class ClosetTest {
         // remove existing clothing from closet
         try {
             testCloset.addClothingToCloset(testClothing1);
-            assertEquals(1, testCloset.getItems().size());
+            assertEquals(1, testCloset.getClothingsFromCloset().size());
             testCloset.removeClothingFromCloset(testClothing1);
-            assertEquals(0, testCloset.getItems().size());
+            assertEquals(0, testCloset.getClothingsFromCloset().size());
         } catch (ClothingException ex) {
             fail("unexpected ClothingException");
         }
