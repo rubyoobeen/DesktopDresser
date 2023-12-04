@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 // Represents application's main menu window frame
@@ -355,9 +356,13 @@ public class ClothingMenu extends JInternalFrame {
         return label;
     }
 
-    // creates combo box for enums
+    // creates combo box for enums with a blank option
     private <T> JComboBox<T> createComboBox(T[] enumConstants) {
-        JComboBox<T> comboBox = new JComboBox<>(enumConstants);
+        T[] itemBlank = Arrays.copyOf(enumConstants,enumConstants.length + 1);
+        System.arraycopy(enumConstants, 0, itemBlank, 1, enumConstants.length);
+        itemBlank[0] = null;
+
+        JComboBox<T> comboBox = new JComboBox<>(itemBlank);
         comboBox.setPreferredSize(new Dimension(150, 25));
         return comboBox;
     }

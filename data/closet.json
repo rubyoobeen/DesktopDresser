@@ -49,6 +49,14 @@
         {
             "name": "School",
             "collection": []
+        },
+        {
+            "name": "Party",
+            "collection": [{
+                "item": "Pajamas",
+                "color": "MIX",
+                "category": "DRESS"
+            }]
         }
     ],
     "clothing items": [
