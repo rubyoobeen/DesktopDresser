@@ -26,10 +26,11 @@ public class ClothingMenu extends JInternalFrame {
     private JComboBox<Color> colorComboBox;
     private JComboBox<ClothingCategory> categoryComboBox;
 
-    // Constructor that takes a Closet object and initialize the frame
-    public ClothingMenu(Closet loadedCloset) {
+    // Constructor that takes a Closet object and initialize the frame to given parent frame
+    public ClothingMenu(Component parent, Closet loadedCloset) {
         this.closet = loadedCloset;
         initialize();
+        setPosition(parent);
     }
 
     // initializes clothing tab
@@ -37,6 +38,8 @@ public class ClothingMenu extends JInternalFrame {
         setTitle("CLOTHING");
         setSize(800,600);
         setLayout(new BorderLayout());
+        setResizable(false);
+        setClosable(true);
 
         createClothingTable();
         add(new JScrollPane(clothingTable), BorderLayout.CENTER);
@@ -141,6 +144,11 @@ public class ClothingMenu extends JInternalFrame {
         panel.add(new JButton(new ViewShoes()));
 
         return panel;
+    }
+
+    // set position on parent frame
+    private void setPosition(Component parent) {
+        setLocation(100, 100);
     }
 
     // adds new clothing to closet and updates the clothing list

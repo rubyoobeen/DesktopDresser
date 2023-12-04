@@ -38,6 +38,8 @@ public class Outfit implements Writable {
         if (collection.contains(clothing)) {
             collection.remove(clothing);
             usedCategories.remove(clothing.getCategory());
+            EventLog.getInstance().logEvent(new Event("Removed item [" + clothing.toString()
+                    + "] from outfit [" + this.toString() + "]"));
         } else {
             throw new ClothingException("clothing doesn't exist in this collection");
         }
@@ -49,6 +51,8 @@ public class Outfit implements Writable {
         if (noDuplicateItem(clothing) && outfitRestrictions(clothing.getCategory())) {
             collection.add(clothing);
             usedCategories.add(clothing.getCategory());
+            EventLog.getInstance().logEvent(new Event("Added item [" + clothing.toString()
+                    + "] to outfit [" + this.toString() + "]"));
         } else {
             throw new ClothingException("cannot add item due to restrictions");
         }

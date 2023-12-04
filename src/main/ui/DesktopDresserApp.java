@@ -1,7 +1,9 @@
 package ui;
 
 import model.Closet;
+import model.EventLog;
 import model.exception.ClothingException;
+import model.exception.LogException;
 import persistence.JsonReader;
 
 import javax.swing.*;
@@ -128,9 +130,12 @@ public class DesktopDresserApp extends JFrame {
 
     // creates main menu
     private JPanel createMainMenu() {
-        JPanel mainMenuPanel = new JPanel(new GridLayout(3, 1));
+        JPanel mainMenuPanel = new JPanel(new GridLayout(6, 1));
         mainMenuPanel.add(new JButton(new ClothingAction()));
         mainMenuPanel.add(new JButton(new OutfitAction()));
+        mainMenuPanel.add(new JButton(new FilePrintLogAction()));
+        mainMenuPanel.add(new JButton(new ScreenPrintLogAction()));
+        mainMenuPanel.add(new JButton(new ClearLogAction()));
         mainMenuPanel.add(new JButton(new ExitAction()));
 
         return mainMenuPanel;
@@ -139,8 +144,8 @@ public class DesktopDresserApp extends JFrame {
     // initialize main menu
     private void initialMainMenu() {
         mainMenu = new JInternalFrame("MAIN");
-        mainMenu.setSize(150, 300);
-        mainMenu.setLocation(0, 250);
+        mainMenu.setSize(150, 500);
+        mainMenu.setLocation(0, 150);
 
         JPanel mainMenuPanel = createMainMenu();
 
@@ -159,9 +164,9 @@ public class DesktopDresserApp extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            ClothingMenu clothingMenu = new ClothingMenu(mainCloset);
+            ClothingMenu clothingMenu = new ClothingMenu(DesktopDresserApp.this, mainCloset);
             clothingMenu.setVisible(true);
-            desktop.add(clothingMenu);
+            desktop.add((ClothingMenu) clothingMenu);
         }
     }
 
@@ -174,13 +179,66 @@ public class DesktopDresserApp extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            OutfitMenu outfitMenu = new OutfitMenu(mainCloset);
+            OutfitMenu outfitMenu = new OutfitMenu(DesktopDresserApp.this, mainCloset);
             outfitMenu.setVisible(true);
             desktop.add(outfitMenu);
         }
     }
 
-    // exits application
+    // clears all log events occur in application
+    private class ClearLogAction extends AbstractAction {
+
+        ClearLogAction() {
+            super("Clear Log");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            EventLog.getInstance().clear();
+        }
+    }
+
+    // prints all log events occur in application to file
+    private class FilePrintLogAction extends AbstractAction {
+
+        FilePrintLogAction() {
+            super("Logs to File");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            try {
+                LogPrinter lp = new FilePrinter();
+                lp.printLog(EventLog.getInstance());
+            } catch (LogException ex) {
+                JOptionPane.showMessageDialog(null, "Error: Cannot Print to File",
+                        "SYSTEM ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    // prints all log events occur in application to screen
+    private class ScreenPrintLogAction extends AbstractAction {
+
+        ScreenPrintLogAction() {
+            super("Logs to Screen");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            LogPrinter lp;
+            try {
+                lp = new ScreenPrinter(DesktopDresserApp.this);
+                desktop.add((ScreenPrinter) lp);
+                lp.printLog(EventLog.getInstance());
+            } catch (LogException ex) {
+                JOptionPane.showMessageDialog(null, "Error: Cannot Print to Screen",
+                        "SYSTEM ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    // asks user if they want to exit application, and exits or not
     private class ExitAction extends AbstractAction {
 
         ExitAction() {

@@ -83,6 +83,8 @@ public class Closet implements Writable {
     public void addClothingToCloset(Clothing clothing) throws ClothingException {
         if (!items.contains(clothing)) {
             items.add(clothing);
+            EventLog.getInstance().logEvent(new Event("Added item [" + clothing.toString()
+                    + "] to closet [" + this.getName() + "]"));
         } else {
             throw new ClothingException("duplicate clothing item");
         }
@@ -93,6 +95,8 @@ public class Closet implements Writable {
     public void removeClothingFromCloset(Clothing clothing) throws ClothingException {
         if (items.contains(clothing)) {
             items.remove(clothing);
+            EventLog.getInstance().logEvent(new Event("Removed item [" + clothing.toString()
+                    + "] from closet [" + this.toString() + "]"));
         } else {
             throw new ClothingException("item not found");
         }
@@ -103,6 +107,8 @@ public class Closet implements Writable {
     public void addOutfitToCloset(Outfit outfit) throws ClothingException {
         if (!outfits.contains(outfit)) {
             outfits.add(outfit);
+            EventLog.getInstance().logEvent(new Event("Added outfit [" + outfit.toString()
+                    + "] to closet [" + this.toString() + "]"));
         } else {
             throw new ClothingException("duplicate outfit");
         }
@@ -113,6 +119,8 @@ public class Closet implements Writable {
     public void removeOutfitFromCloset(Outfit outfit) throws ClothingException {
         if (outfits.contains(outfit)) {
             outfits.remove(outfit);
+            EventLog.getInstance().logEvent(new Event("Removed outfit [" + outfit.toString()
+                    + "] from closet [" + this.toString() + "]"));
         } else {
             throw new ClothingException("outfit not found");
         }

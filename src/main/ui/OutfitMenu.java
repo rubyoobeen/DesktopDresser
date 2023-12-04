@@ -30,11 +30,12 @@ public class OutfitMenu extends JInternalFrame {
     private String[] columnNames;
 
     // Constructor that takes a closet object and initialize the frame
-    public OutfitMenu(Closet loadCloset) {
+    public OutfitMenu(Component parent, Closet loadCloset) {
         this.closet = loadCloset;
         this.columnNames = new String[]{"name", "TOP", "BOT", "OUTER", "DRESS", "ACC", "SHOES"};
 
         initialize();
+        setPosition(parent);
     }
 
     // initializes outfit tab
@@ -42,6 +43,8 @@ public class OutfitMenu extends JInternalFrame {
         setTitle("OUTFIT");
         setSize(800,600);
         setLayout(new BorderLayout());
+        setResizable(false);
+        setClosable(true);
 
         createOutfitTable();
         JScrollPane scrollPane = new JScrollPane(outfitTable);
@@ -135,7 +138,7 @@ public class OutfitMenu extends JInternalFrame {
     // creates a panel for Top, Bot, Dress combo boxes to add and delete
     private JPanel createComboPanel() {
         JPanel comboPanel = new JPanel();
-        comboPanel.setPreferredSize(new Dimension(150, 600));
+        comboPanel.setPreferredSize(new Dimension(150, 450));
         comboPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         initializeComboBoxes();
@@ -146,7 +149,6 @@ public class OutfitMenu extends JInternalFrame {
         comboPanel.add(createOuterPanel());
         comboPanel.add(createAccPanel());
         comboPanel.add(createShoesPanel());
-        comboPanel.add(createBotPanel());
 
         return comboPanel;
     }
@@ -197,7 +199,6 @@ public class OutfitMenu extends JInternalFrame {
         return dressPanel;
     }
 
-
     // creates a panel for outer label, combo box and add/delete button
     private JPanel createOuterPanel() {
         JPanel outerPanel = new JPanel();
@@ -216,7 +217,7 @@ public class OutfitMenu extends JInternalFrame {
         JPanel accPanel = new JPanel();
         accPanel.setLayout(new GridLayout(2, 2));
 
-        accPanel.add(createLabel("OUTER"));
+        accPanel.add(createLabel("ACC"));
         accCombo = createComboBox(closet.getClothingsByCategory(ClothingCategory.ACC));
         accPanel.add(accCombo);
         accPanel.add(new JButton(new AddAction(accCombo)));
@@ -235,6 +236,11 @@ public class OutfitMenu extends JInternalFrame {
         shoesPanel.add(new JButton(new AddAction(shoesCombo)));
         shoesPanel.add(new JButton(new RemoveAction(shoesCombo)));
         return shoesPanel;
+    }
+
+    // set position on parent frame
+    private void setPosition(Component parent) {
+        setLocation(100, 100);
     }
 
     // makes outfit from closet and updates the outfit list
