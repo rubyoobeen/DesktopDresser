@@ -45,6 +45,12 @@ and show your sense of fashion!
 > Phase 3:
 > - As a user, I want to be able to add multiple clothing items to the closet.
 > - As a user, I want to be able to load previous files and save current file.
+>
+> Phase 4 Task 3:
+> - As a user, I want to be able to add multiple clothing items to the closet.
+> - As a user, I want to be able to load previous files and save current file.
+>
+
 
 ### Instructions for Grader
 
