@@ -52,14 +52,3 @@ and show your sense of fashion!
 > helper classes to encapsulate common functionalities - promoting cleaner and more efficient codebase.
 > If I had more time, I could develop a central hub class for common operations related to clothing items,
 > including adding, removing, marking and other manipulation.
-
-
-### Instructions for Grader
-
-> X: Clothing, Y: Outfit, Z: Closet
-- reload the state of application by clicking 'Load Closet' from menu bar
-- add multiple Xs to Z by clicking 'Add Clothing' 
-- remove multiple Xs from Z by clicking 'Remove Clothing'
-- build Y with multiple Xs by clicking 'Build Outfit'
-- load old Z by clicking 'Load Closet'
-- view Xs and Ys in Z by clicking 'View Closet' and following option for 'Clothing Items/Outfits'
